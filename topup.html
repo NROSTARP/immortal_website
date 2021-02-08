@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Boostrap *ยังใช้cdnอยู่-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!---Jquery *ยังใช้cdnอยู่-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+
+
+    <!--img logo-->
+    <link rel="shortcut icon" href="pic/logo.png">
+    <title>IMMORTAL CITY | Join to the best society.</title>
+
+    <style>
+        .nav-text {
+
+            margin: 5px;
+        }
+
+        .carousel {
+            padding-top: 50px;
+        }
+    </style>
+
+
+
+
+
+
+
+</head>
+
+<body id="page-top">
+
+    <!--MENU *ขาดlogin steam & dialog & ปรับแต่งให้สวยงาม-->
+    <header>
+
+        <div class="fixed-top ">
+            <nav class="navbar navbar-light bg-dark">
+                <div class="container">
+                    <a class="navbar-brand js-scroll-trigger" href="#">
+                        <!--img logo-->
+                        <img src="pic/namelogo.png" alt="" width="275" height="50" class="d-inline-block align-top">
+
+                        <!--nav menu-->
+                        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+                            <div class="container">
+                                <a class="navbar-brand" aria-current="page-top" href="#page-top"></a>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav">
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                                style="background-color:chocolate; margin: 10px;">
+                                                แนะนำวิธีการเล่น
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <div id="dialog" title="Basic dialog"></div>
+                                                <li><a class="dropdown-item" href="#" >แนะนำวิธีการเล่นพื้นฐาน</a></li>
+                                                <li><a class="dropdown-item" href="#">แนะนำอาชีพพื้นฐาน</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                                style="background-color:chocolate; margin: 10px;">
+                                                กฏของเซิฟเวอร์
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#services">สิ่งที่ควรรู้</a></li>
+                                                <li><a class="dropdown-item" href="#law">กฏหมายของเซิฟเวอร์</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                                style="background-color:chocolate; margin: 10px;">
+                                                โดเนท
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#">ร้านค้า</a></li>
+                                                <li><a class="dropdown-item" href="#">เติมเงิน</a></li>
+                                            </ul>
+
+                                        </div>
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <h6 style="color: white; ">LOGIN</h6></a>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </a>
+                </div>
+            </nav>    
+        </div>   
+    </header>
+    
+    
+    <class id="topPage" class="indigo-skin" style="background-color:black;" aria-busy="true"><nav class="btn dropdown-toggle  navbar fixed-top navbar-toggleable-md navbar-expand-lg double-nav btn-dark waves-effect waves-light">
+        <!-- SideNav slide-out button -->
+    
+        <!-- Breadcrumb-->
+        <ul class="navbar-nav ml-auto flex-wrap flex-row">
+            <a class="ht-tm-element btn btn-shadow btn-outline-success waves-effect waves-light" id="credit_banner">837 | aacheow Cash : <span class="mymoney" disabled="">0</span></a>			<a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning  waves-effect waves-light" href="?page=store/store"> <i class="fas fa-money-bill-alt mr-2"></i> ร้านค้า</a>
+                <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" href="?page=donate/donate"> <i class="fas fa-money-bill-alt mr-2"></i> โดเนท</a>
+            <a class="ht-tm-element btn btn-shadow btn-outline-danger waves-effect waves-light" href="?page=login/logout&amp;current=donate/donate"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ef/efaaf4070242245d21fb26cd4f31c5e1ea4aa585.jpg" style="width: 20px" class="rounded-circle img-fluid">ออกจากระบบ</a>
+    
+                
+                
+                </ul></nav>
+    
+    
+    <!-- JQuery -->
+    <script type="text/javascript" src="dist/bootstrappro/js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="dist/bootstrappro/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="dist/bootstrappro/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="dist/bootstrappro/js/mdb.min.js"></script><div class="hiddendiv common"></div>
+    
+    
+    <link rel="stylesheet" type="text/css" href="dist/bootstrappro/css/addons/datatables.css">
+    <script type="text/javascript" src="dist/bootstrappro/js/addons/datatables.js"></script>
+    
+    
+    
+    <div class="modal fade" id="popup_model" tabindex="-1" role="dialog" aria-labelledby="popup_model_times_times" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" id="popup_size">
+            <div class="modal-content">
+                <div class="modal-header bg-success" id="popup_header">
+                    <h5 class="modal-title text-white"><div id="popup_title"></div></h5>
+                </div>
+                <div class="modal-body">
+                    <center><div id="popup_motion"></div></center><br>
+                    <div id="popup_body"></div>
+                </div>
+                <div class="modal-footer">
+                    <div id="popup_button"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script>
+        function show_popup(title, body, button, type, gota, nomotion, size){
+            if(type=="success"){
+                document.getElementById('popup_header').className = "modal-header bg-success";
+                if(!nomotion){
+                    document.getElementById('popup_motion').innerHTML = "<i class='fa fa-check fa-4x animated rotateIn text-success'></i>";
+                }
+            }else if(type=="danger"){ 
+                document.getElementById('popup_header').className = "modal-header bg-danger";
+                if(!nomotion){
+                    document.getElementById('popup_motion').innerHTML = "<i class='fa fa-times fa-4x animated rotateIn text-danger'></i>";
+                    }
+            }else if(type=="warning"){
+                document.getElementById('popup_header').className = "modal-header bg-warning";
+                if(!nomotion){
+                    document.getElementById('popup_motion').innerHTML = "<i class='fa fa-exclamation fa-4x animated rotateIn text-warning'></i>";
+                }
+            }
+            
+            if(nomotion){
+                document.getElementById('popup_motion').innerHTML = "";
+            }
+            
+            if(size){
+                document.getElementById('popup_size').className = "modal-dialog modal-lg modal-dialog-centered";
+            }else{
+                document.getElementById('popup_size').className = "modal-dialog modal-dialog-centered";
+            }
+            
+            document.getElementById('popup_title').innerHTML = title;
+            document.getElementById('popup_body').innerHTML = body;
+            
+            if(button=="ปิด"){
+                document.getElementById('popup_button').innerHTML = '<button type="button" id="popup_model_times_button" class="ht-tm-element ht-tm-element btn btn-shadow text-mono btn-outline-shadow text-mono btn-outline-'+type+' waves-effect" data-dismiss="modal" aria-label="Close">ปิด</button>';
+            }else if(button=="ย้อนกลับ"){
+                if(!gota){
+                    document.getElementById('popup_button').innerHTML = '<button type="button" id="popup_model_times_button" class="ht-tm-element btn btn-shadow text-mono btn-outline-'+type+' waves-effect" onclick="window.history.back();">ย้อนกลับ</button>';
+                }else{
+                    document.getElementById('popup_button').innerHTML = '<button type="button" id="popup_model_times_button" class="ht-tm-element btn btn-shadow text-mono btn-outline-'+type+' waves-effect" onclick="location.replace(\'?page='+gota+'\')">ย้อนกลับ</button>';
+                }
+            }
+            $('#popup_model').modal('show');
+        }
+    </script>
+    
+    <script>
+        function windows_back(){
+            window.history.back();
+        }
+    </script>    
+            <main>
+        
+            <!-- Page Content -->
+            <div class="w3-animate-opacity container-fluid mt-3" style="padding-top:90px;">
+                <div class="col-lg-10" style="min-height:1000px">
+                    ﻿﻿<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="confirm_pay" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white" id="confirm_pay">ยืนยัน</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="white-text">×</span></button>
+                </div>
+    
+                <div class="modal-body">
+                    <h4 class="card-title">คุณต้องการลบใช่ไหม</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success waves-effect waves-light" onclick="donate_delete()">ยืนยัน</button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal" aria-label="Close">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var donate_id
+        function confirm_delete(id){
+            donate_id = id
+            $('#confirm_delete').modal('show');
+        }
+        function donate_delete(){
+            $.post("include/pages/donate/donate_delete.php", {id:donate_id } ,function(response){			
+                console.log(response);
+                if(response=="success"){
+                    document.getElementById("donate_check_"+donate_id).remove();
+                    $('#confirm_delete').modal('hide');
+                }
+            });
+        }
+    </script>
+    
+    
+    <title>CYBER - โดเนท</title>
+    <div class="edge-header">
+        <div class="col-lg-12" style="top:30px;">
+            <div class="row">
+                <div class="col-lg-12 col-md-6 mb-4">
+                    <h2 class="container text-white">โดเนท</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+    .image-container {
+        position: relative;
+        width: 50%;
+    }
+    
+    .image {
+      opacity: 1;
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: .5s ease;
+      backface-visibility: hidden;
+    }
+    
+    .middle {
+      transition: .5s ease;
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    
+    .image-container:hover .image {
+      opacity: 0.0;
+    }
+    
+    .image-container:hover .middle {
+      opacity: 1;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .zoom:hover {
+      -ms-transform: scale(1.5); /* IE 9 */
+      -webkit-transform: scale(1.5); /* Safari 3-8 */
+      transform: scale(1.5); 
+    }
+    </style>
+    <script>
+    $(document).ready(function() {
+        
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+       
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+        
+        $(".upload-button").on('click', function() {
+           $(".file-upload").click();
+        });
+        
+        $(".profile-pic").on('click', function() {
+           $(".file-upload").click();
+        });
+    });
+    </script>
+    
+    <div class="container free-bird">
+        <div class="row">
+        
+            <div class="col-lg-4 col-md-12 mb-4 align-items-stretch">
+                <div class="card testimonial-card">
+                    <div class="avatar mx-auto dark"><img src="https://f.ptcdn.info/826/067/000/q4irzx9neyPuFue242td-o.png" alt="avatar mx-auto white" class="img-fluid">
+                    </div>
+    
+                    <div class="card-body">
+                        <!--Name-->
+                        <h4 class="card-title mt-1">True Money Wallet</h4>
+                        <hr>
+                        <!--Quotation-->
+                        <p class="card-text">
+                        เบอร์โทร: 087-542-1049<br>
+                        ชื่อ: นาย ปถวี ศรีสามยอด<br><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-lg-4 col-md-12 mb-4 align-items-stretch">
+                <div class="card testimonial-card">
+                    <div class="avatar mx-auto dark"><img src="https://assets.brandinside.asia/uploads/2017/03/scb-logo.jpg" alt="avatar mx-auto white" class="img-fluid">
+                    </div>
+    
+                    <div class="card-body">
+                        <!--Name-->
+                        <h4 class="card-title mt-1">ธนาคารไทยพาณิชย์</h4>
+                        <hr>
+                        <!--Quotation-->
+                        <p class="card-text">
+                        เลขบัญชี: 412-083473-1<br>
+                        ธนาคาร: ธนาคารไทยพาณิชย์<br>
+                        ชื่อ: นาย ปถวี ศรีสามยอด<br>
+                        </p>
+                    </div>
+                </div>			
+            </div>
+            
+            <div class="col-lg-12 col-md-12 mb-4">
+                <h2 class="section-heading"> ยืนยันการโดเนท </h2>
+                <div class="card wider mb-4">
+                    <div class="card-body">
+                        <form name="form" method="post" action="?page=donate/donate_upload" enctype="multipart/form-data"> 
+                            <div class="row">
+                                <div class="col-md-6 mb-6">
+        
+                                    <ul class="list-group list-group-flush card-text">
+                                        <li class="list-group-item">
+                                            สลิปหลักฐานการโอนเงิน
+                                        </li>
+                                    </ul>
+                                    <img src="https://media.discordapp.net/attachments/748551609503449229/753995389597778031/image.png" class="profile-pic img-fluid">
+                                    <div class="middle">
+                                        <input class="file-upload" type="file" accept="image/x-png,image/bmp,image/jpeg" id="imgInp" name="imgInp" style="width:1px;height:1px;" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-6">
+                                    <div class="row">
+                                        <div class="col">
+                                            <ul class="list-group list-group-flush card-text">
+                                                <li class="list-group-item">
+                                                    รายละเอียดการโอน  ( 1 บาท = 1 point )
+                                                </li>
+                                            </ul>
+                                            <div class="card-body">
+                                                <input name="id" value="
+  
+    
+                                                <input name="user" value="
+                                                
+                                                <section class="section-preview">
+                                                
+                                                
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text bg-success">
+                                                                <i class="fas fa-money-bill text-white"></i>
+                                                            </div>
+                                                        </div>
+                                                        <input class="form-control" type="number" id="comment" name="comment" placeholder="จำนวนเงินโอน" autocomplete="off" required="">
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend ">
+                                                            <div class="input-group-text bg-warning text-white">
+                                                                <i class="fas fa-clock text-white"></i>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <input class="form-control clockpicker" type="text" id="time_send" name="time_send" placeholder="เวลาที่โอน" autocomplete="off" required="">
+                                                
+                                                    </div>
+                                                    <br>
+                                                    <div class="ht-tm-codeblock">
+                                                      <div class="ht-tm-element custom-control custom-radio">
+                                                        <input type="radio" id="customRadio1" name="radio" class="custom-control-input" value="scb" required="">
+                                                        <label class="custom-control-label" for="customRadio1">โอนเข้าธนาคารไทยพาณิชย์</label>
+                                                      </div>
+                                                      <div class="ht-tm-element custom-control custom-radio">
+                                                        <input type="radio" id="customRadio2" name="radio" class="custom-control-input" value="tw" required="">
+                                                        <label class="custom-control-label" for="customRadio2">โอนเข้า True Wallet</label>
+                                                      </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input cleareeeeeeeee" id="rules" required="">
+                                                        <label class="custom-control-label" for="rules">อ่านและยอมรับ กฎของเซิร์ฟเวอร์ แล้ว</label>
+                                                        <p>
+                                                        การโดเนทเป็นการบริจาคให้กับเซิร์ฟเวอร์เพื่อสนับสนุนผู้พัฒนาระบบ<br>
+                                                        การบริจาคไม่สามารถขอเงินคืนได้ ระบบจะตรวจสอบภายใน 12 ชม.
+                                                        </p>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-body">
+                                                    <ul class="list-group list-group-flush card-text">
+                                                        
+                                                        <button type="submit" class="ht-tm-element btn btn-shadow text-mono btn-outline-warning waves-effect waves-light">ส่งหลักฐานการโอน</button>
+                                                    </ul>
+                                                    
+                                                </div>
+                                            </div>
+                                                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </form>			
+                    </div>
+                </div>
+            </div>
+            
+    
+    <script>
+        $(document).ready(function () {
+            $('#dtHorizontalVerticalExample_full').DataTable({
+                "scrollX": true,
+                "scrollY": 500,
+            });
+            
+            setInterval(function(){
+                $( "#donate_history" ).load(window.location.href + " #donate_history" );
+            }, 30000);
+        });
+    </script>
+    
+    
+    
+    
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("comment");
+    
+        slider.oninput = function() {
+          output.value = this.value;
+        }
+        
+        $('#btnplus').click(function(){
+            var newvalue = Number(output.value)+1
+            output.value = newvalue;
+            slider.value =newvalue;
+        });
+        
+        $('#btnminus').click(function(){
+            var newvalue = Number(output.value)-1
+            output.value = newvalue;
+            slider.value =newvalue;
+        });
+    </script>            </div>
+            </div>
+           
+                
+                       
+                    </main>
+        
+    </body>
+
+     
+
+
+
+    <!--discord *เสร็จแล้ว-->
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+        new Crate({
+            server: '772054063399305236',
+            channel: '772085739110268948'
+        })
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
