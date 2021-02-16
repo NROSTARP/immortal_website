@@ -10,26 +10,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-        crossorigin="anonymous"></script>    
+        crossorigin="anonymous"></script>
 
     <!---Jquery *ยังใช้cdnอยู่-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mitr&family=Roboto&family=Sriracha&family=Truculenta&display=swap"
+        rel="stylesheet">
 
     <!--img logo-->
     <link rel="shortcut icon" href="pic/logo.png">
     <title>IMMORTAL CITY | Join to the best society.</title>
 
     <style>
-        
-
         .carousel {
             padding-top: 50px;
         }
+
+        /*
+        font-family: 'Mitr', sans-serif;
+        font-family: 'Roboto', sans-serif;
+        font-family: 'Truculenta', sans-serif;
+        font-family: 'Sriracha', cursive;
+        */
     </style>
 
 
@@ -40,7 +49,7 @@
 
 </head>
 
-<body id="page-top" >
+<body id="page-top">
 
     <!--MENU *ขาดlogin steam & dialog & ปรับแต่งให้สวยงาม-->
     <header>
@@ -65,39 +74,39 @@
                                     <ul class="navbar-nav">
                                         <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light"
                                             type="button" href="#"
-                                            style="color: honeydew; background-color:#964800; margin: 10px;">
+                                            style="color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;">
                                             แนะนำวิธีการเล่นพื้นฐาน
                                         </a>
 
                                         <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light"
                                             type="button" href="#services"
-                                            style="color: honeydew; background-color:#964800; margin: 10px;">
+                                            style="color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;">
                                             สิ่งที่คุณควรรู้ก่อนเริ่มเล่น
                                         </a>
 
                                         <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light"
                                             type="button" href="#law"
-                                            style="color: honeydew; background-color:#964800; margin: 10px;">
+                                            style="color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;">
                                             กฏหมายภายในประเทศ
                                         </a>
 
                                         <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light"
                                             type="button" href="topup.html"
-                                            style="color: honeydew; background-color:#964800; margin: 10px;">
+                                            style="color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;">
                                             ร้านค้า & เติมเงิน
                                         </a>
 
                                         <!--ปุ่มล็อกอิน-->
                                         <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light"
                                             type="button" href="#"
-                                            style="color: honeydew; background-color:#007200; margin: 10px;">
+                                            style="color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;">
                                             LOGIN
                                         </a>
-                                        
-                                        
+
+
                                         <!--dropdownของSteam-->
                                         <!--<div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" name="Name_id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                               Username_steam
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -121,14 +130,25 @@
     <!--Carousel & NEW-->
     <header>
         <!--หน้าปก-->
-        <img src="pic/header3.png">
+    <section class="bg-light page-section" id="new">
+
+        <br>
+        <br>
+        <br>
+        
+        <img src="pic/wallpeper logoserver3.png" width="1920" height="1080">
         </head>
         <div class="container">
 
             <div class="text-mono">
-                
+
             </div>
             <!--Carousel-->
+            <br>
+            <br>
+            <center>
+                <h1 style="font-family: 'Sriracha', cursive;">Welcome to IMMORTALCITY THAILAND</h1>
+            </center>
             <div>
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                     <ol class="carousel-indicators">
@@ -168,27 +188,59 @@
             <Center>
                 <br>
                 <br>
-                <h1>--NEWS & UPDATE--</h1>
+                <h1 style="font-family: 'Sriracha', cursive;">--NEWS & UPDATE--</h1>
                 <br>
                 <br>
-                <br>
-            </Center>
-
-            <div style="overflow-x: auto; width: 100%;" id="news"></div>
 
             
 
-                <div class="card" style="display: inline-block; width: 18rem;"><img src="Update Server/14-01-63/14-01-2563.PNG" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                        UPDATE 14/01/2563</h5>
-                        <p class="card-text" style="text-overflow: ellipsis;">
-                        ระบบการเงิน ธนาคาร คริปโต และคาสิโน นี่คือการหาเงินนอกจากทำอาชีพ</p>
-                        <a href="https://www.facebook.com/104573434940788/posts/106827221382076/?d=n" class="btn btn-primary stretched-link">
-                        คลิก! อ่านต่อ</a>
-                    </div>
-                </div>
+            <div style="overflow-x: auto; width: 100%;" id="news"></div>
 
+
+            <div class="card" style="display: inline-block; width: 18rem;"><img
+                src="Update Server/14-01-63/14-01-2563.PNG" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="font-family: 'Sriracha', cursive;">
+                    UPDATE 14/01/2563</h5>
+                <p class="card-text" style="text-overflow: ellipsis; font-family: 'Mitr', sans-serif;">
+                    ระบบการเงิน ธนาคาร คริปโต และคาสิโน คือการหาเงินนอกจากทำอาชีพ</p>
+                <a href="https://www.facebook.com/104573434940788/posts/106827221382076/?d=n"
+                    class="btn btn-primary stretched-link" style="font-family: 'Mitr', sans-serif;">
+                    คลิก! อ่านต่อ</a>
+            </div>
+        </div>
+
+            <div class="card" style="display: inline-block; width: 18rem;"><img
+                    src="Update Server/14-01-63/14-01-2563-2.PNG" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-family: 'Sriracha', cursive;">
+                        UPDATE 14/01/2563</h5>
+                    <p class="card-text" style="text-overflow: ellipsis; font-family: 'Mitr', sans-serif;">
+                        ระบบการาจ พาวด์ และ Valet อยากโชว์รถตัวเองหลายๆ คัน</p>
+                    <a href="https://www.facebook.com/104573434940788/posts/106734184724713/?d=n"
+                        class="btn btn-primary stretched-link" style="font-family: 'Mitr', sans-serif;">
+                        คลิก! อ่านต่อ</a>
+                </div>
+            </div>
+
+            <div class="card" style="display: inline-block; width: 18rem;"><img
+                src="Update Server/14-01-63/14-01-2563-3.PNG" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="font-family: 'Sriracha', cursive;">
+                    UPDATE 14/01/2563</h5>
+                <p class="card-text" style="text-overflow: ellipsis; font-family: 'Mitr', sans-serif;">
+                    ระบบอาชีพฤดูกาล ระบบใหม่ที่ยังไม่มีใครเคยทำ</p>
+                <a href="https://www.facebook.com/104573434940788/posts/106662284731903/?d=n"
+                    class="btn btn-primary stretched-link" style="font-family: 'Mitr', sans-serif;">
+                    คลิก! อ่านต่อ</a>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+    </Center>
+    </section>
     </header>
 
 
@@ -204,8 +256,9 @@
                     <br>
                     <br>
                     <br>
-                    <h1 class="section-heading text-uppercase">สิ่งที่คุณควรรู้ก่อนเริ่มเล่น !</h1>
-                    <p class="text-muted">
+                    <h1 class="section-heading text-uppercase" style="font-family: 'Mitr', sans-serif;">
+                        สิ่งที่คุณควรรู้ก่อนเริ่มเล่น !</h1>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">
                         Roleplay เป็นการจำลองบทบาทสมมติให้กับตัวละครในเกม ให้รู้สึกว่าตัวละครในเกมมีชีวิตจริง ๆ
                         ในบทบาทที่คุณเป็นคนกำหนด มีความรู้สึก มีความกลัวต่อสิ่งต่าง ๆ เช่น กลัวตาย กลัวมีด กลัวปืน
                         และมีความอยากจะเป็นในสิ่งต่าง ๆ เหมือนดั่งในชีวิตจริงที่คุณอยากจะเป็น
@@ -223,27 +276,30 @@
             <div class="row text-center">
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">In Character (IC)</h4>
-                    <p class="text-muted">การพูดคุยของตัวละครในบทบาท จะไม่พูดคุยเกี่ยวกับชีวิตจริง
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">In Character (IC)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">การพูดคุยของตัวละครในบทบาท
+                        จะไม่พูดคุยเกี่ยวกับชีวิตจริง
                         เป็นการพูดคุยของตัวละครในเกม
                     </p>
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Out Of Character (OOC)</h4>
-                    <p class="text-muted">การพูดคุยนอกบทบาทหรือการพูดคุยในชีวิตจริงๆของเรานั้นเอง
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Out Of Character (OOC)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">
+                        การพูดคุยนอกบทบาทหรือการพูดคุยในชีวิตจริงๆของเรานั้นเอง
                         ซื่งต่างจากการคุยแบบ IC อย่างตรงข้าม</p>
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Metagaming (MG)</h4>
-                    <p class="text-muted">การนำเอาเรื่อง OOC (เรื่องของชีวิตจริง) มาปนกับ IC (เรื่องของในเกม) เช่น
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Metagaming (MG)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">การนำเอาเรื่อง OOC
+                        (เรื่องของชีวิตจริง) มาปนกับ IC (เรื่องของในเกม) เช่น
                         การพูดคุยนัดแนะกันใน Discord, TS3 หรือช่องทางอื่น ๆ นอกเหนือจากในเกม หรือ
                         การเอาเรื่องในชีวิตจริงของเรามาพูดคุยในเกม เป็นต้น
                         ซึ่งหากคุณกระทำการดังตัวอย่างที่กล่าวมาข้างต้น คุณจะถูกลงโทษทันที
@@ -252,20 +308,21 @@
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Powergaming (PG)</h4>
-                    <p class="text-muted">การกระทำที่เกินคน หรือเหนือมนุษย์
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Powergaming (PG)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">การกระทำที่เกินคน หรือเหนือมนุษย์
                         ปกติในชีวิตจริงเขาทำไม่ได้หรือเขาไม่ทำกัน เช่น ไม่กลัวรถชน,
                         วิ่งอย่างไม่เหนื่อยกระโดดอย่างไม่เหนื่อยกระโดดลงมา, กระโดดลงรถเมื่อขับรถด้วยความเร็ว,
                         ขับรถพุ่งลงน้ำ, คุยโทรศัพท์ในน้ำ, ขับรถที่ไม่ใช่แนว Off road ขึ้นเขา เป็นต้น </p>
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Deathmatch (DM)</h4>
-                    <p class="text-muted">เป็นการฆ่าคน หรือต่อยคน โดยที่เราไม่มีบทบาท หรือพูดเป็นภาษาง่าย ๆ คือ
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Deathmatch (DM)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">เป็นการฆ่าคน หรือต่อยคน
+                        โดยที่เราไม่มีบทบาท หรือพูดเป็นภาษาง่าย ๆ คือ
                         เราไปต่อยหรือฆ่าคนอื่นทั้ง ๆ ที่ยังไม่มีเรื่องราวกันมาก่อน การที่จะไปต่อยหรือฆ่าใคร
                         คุณควรมีเรื่องกับเค้ามาก่อน มิเช่นนั้นคุณจะถูกมองว่าคุณ DM (ฆ่ามั่วต่อยมั่ว)
                         และโดนลงโทษทันที
@@ -273,10 +330,11 @@
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Quit Game (QG)</h4>
-                    <p class="text-muted">การออกเกมขณะที่เรายังดำเนินสตอรี่ไม่จบ หรือยังมีเรื่องที่ค้างคาอยู่ในเกม
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Quit Game (QG)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">
+                        การออกเกมขณะที่เรายังดำเนินสตอรี่ไม่จบ หรือยังมีเรื่องที่ค้างคาอยู่ในเกม
                         เช่น เราหนีตำรวจอยู่แล้วเราออกเกมเพื่อหนี คุณจะถูกมองว่าคุณผิดกฎ QG (ออกเกมหนีบทบาท)
                         และจะถูกลงโทษทันที ถ้าหากเป็นกรณีที่เรามีธุระเร่งด้วยหรือเหตุสุดวิสัยจริง ๆ ที่ต้องออกเกม
                         เราต้องแจ้งกับคนที่กำลังดำเนินสตอรี่กับเราให้ทราบทุกครั้ง
@@ -284,10 +342,10 @@
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Drive By (DB)</h4>
-                    <p class="text-muted">
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Drive By (DB)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">
                         การขับรถชน หรือ การขับรถทับผู้เล่น โดยเจตนาจนผู้อื่นเสียชีวิตหรือไม่ก็ตาม
                         นั่นเป็นสิ่งที่คุณไม่ควรกระทำเป็นอย่างยิ่ง แต่ถ้าหากคุณไม่ได้ตั้งใจที่จะขับรถชน
                         คุณควรที่จะกล่าวคำว่าขอโทษและรับผิดชอบค่าเสียหายให้แก่คู่กรณีทันที
@@ -295,10 +353,10 @@
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Revenge Kill (RK) สำคัญ !</h4>
-                    <p class="text-muted">กฎข้อนี้สำหรับ FreeLife City คือ
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Revenge Kill (RK) สำคัญ !</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">กฎข้อนี้สำหรับ FreeLife City คือ
                         คุณจะต้องลืมเรื่องราวที่เกิดขึ้นในระหว่างที่คุณสลบ ถึงแม้ว่าหน้าจอคุณจะเห็นว่า
                         ใครเป็นคนมาอุ้มคุณไปที่ใหนหรือทำอะไรกับคุณ เมื่อคุณตื่นมาคุณต้องลืมเรื่องราวระหว่างที่คุณสลบ
                         แต่คุณยังสามารถจำได้ว่า ก่อนหน้าที่คุณสลบใครมาทำอะไรคุณ และในการสลบบางกรณีเช่น
@@ -310,10 +368,11 @@
                 </div>
                 <div class="col-md-4">
 
-                    <img src="pic/avatar.png" alt="" width="200" height="200">
+                    <img src="pic/RK.png" alt="" width="300" height="300">
                     <h1> </h1><br>
-                    <h4 class="service-heading">Value of life (VoL)</h4>
-                    <p class="text-muted">การเห็นความสำคัญของชีวิต รักชีวิตตัวเองมากกว่าสิ่งอื่นใด
+                    <h4 class="service-heading" style="font-family: 'Sriracha', cursive;">Value of life (VoL)</h4>
+                    <p class="text-muted" style="font-family: 'Mitr', sans-serif;">การเห็นความสำคัญของชีวิต
+                        รักชีวิตตัวเองมากกว่าสิ่งอื่นใด
                         ในสถานการณ์ที่คุณอยู่ตัวคนเดียวแล้วโดนข่มขู่จากคนที่มีจำนวนมากกว่า
                         คุณควรจะกลัวและรักชีวิตตัวเอง เพราะคุณไม่รู้เลยว่าเค้ามีอาวุธพร้อมที่จะทำร้ายคุณหรือไม่
                     </p>
@@ -323,8 +382,9 @@
 
             <!--ช่องทางการติดต่อ-->
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase">คุณสามารถติดต่อฟรี ! ได้ที่ Facebook Discord</h2>
-                <p class="text-muted">
+                <h2 class="section-heading text-uppercase" style="font-family: 'Sriracha', cursive;">คุณสามารถติดต่อฟรี
+                    ! ได้ที่ Facebook Discord</h2>
+                <p class="text-muted" style="font-family: 'Mitr', sans-serif;">
                     ดูรายละเอียดช่องทาง Facebook Discord ได้ทางข้อมูลเชิฟเวอร์ด้านล่าง
                     <br>
                 <div style="overflow-x: auto; width: 100%; " id="contact">
@@ -354,8 +414,10 @@
                         <br>
                         <br>
                         <br>
-                        <h2 class="section-heading text-uppercase">กฎต่างๆของเซิฟเวอร์ </h2>
-                        <h3 class="section-subheading text-muted">Server Rules</h3>
+                        <h2 class="section-heading text-uppercase" style="font-family: 'Sriracha', cursive;">
+                            กฎต่างๆของเซิฟเวอร์ </h2>
+                        <h3 class="section-subheading text-muted" style="font-family: 'Sriracha', cursive;">Server Rules
+                        </h3>
                         <br>
                         <br>
                     </div>
@@ -366,15 +428,16 @@
                             <h2 class="accordion-header" id="flush-headingOne">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                    aria-controls="flush-collapseOne">
+                                    aria-controls="flush-collapseOne" style="font-family: 'Sriracha', cursive;">
                                     หมวด 1 ความผิดเกี่ยวกับจราจร ( ผู้บังคับใช้หมวด 1 - <a
                                         style="color: cornflowerblue;"> หน่วยงานตำรวจ <a> )
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 101 - การฝ่าฝืนสัญญาณไฟจราจร มีโทษ<a
-                                        style="color:#FF9966	;"> &nbsp;ปรับ 3,000-5,000 เหรียญ </a><br>
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 101 -
+                                    การฝ่าฝืนสัญญาณไฟจราจร มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 3,000-5,000
+                                        เหรียญ </a><br>
 
                                     มาตรา 102 - การขับรถเร็วเกินกว่าที่กฏหมายกำหนด มีโทษ<a style="color:#FF9966	;">
                                         &nbsp;ปรับ 5,000-10,000 เหรียญ </a><br>
@@ -430,14 +493,14 @@
                             <h2 class="accordion-header" id="flush-headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseTwo" aria-expanded="false"
-                                    aria-controls="flush-collapseTwo">
+                                    aria-controls="flush-collapseTwo" style="font-family: 'Sriracha', cursive;">
                                     หมวด 2 ความผิดเกี่ยวกับอาวุธ ( ผู้บังคับใช้หมวด 2 - <a
                                         style="color: cornflowerblue;"> &nbsp;หน่วยงานตำรวจ <a> )
                                 </button>
                             </h2>
                             <div id="flush-collapseTwo" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 201 -
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 201 -
                                     การสำแดงหรือโชว์อาวุธทุกชนิดในที่สาธารณะโดยไม่มีเหตุอันควร มีโทษ<a
                                         style="color:#FF9966	;"> &nbsp;ปรับ 10,000-50,000
                                         เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 5-30 นาที</a> <a
@@ -471,15 +534,15 @@
                             <h2 class="accordion-header" id="flush-headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseThree" aria-expanded="false"
-                                    aria-controls="flush-collapseThree">
+                                    aria-controls="flush-collapseThree" style="font-family: 'Sriracha', cursive;">
                                     หมวด 3 ความผิดเกี่ยวกับยาเสพติด ( ยึดของผิดกฏหมายทุกกรณี ) ( ผู้บังคับใช้หมวด 3 - <a
                                         style="color: cornflowerblue;"> &nbsp;หน่วยงานตำรวจ <a>)
                                 </button>
                             </h2>
                             <div id="flush-collapseThree" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 301 - ครอบครองสารเสพติด เช่น<a
-                                        style="color:#058c46	;"> &nbsp;กัญชา โคเคน สารตั้งต้น
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 301 -
+                                    ครอบครองสารเสพติด เช่น<a style="color:#058c46	;"> &nbsp;กัญชา โคเคน สารตั้งต้น
                                         หรือยาเสพติดอื่นใดที่เกี่ยวข้องกัน
                                         รวมแล้วเกิน 4 ชิ้นขึ้นไป</a> มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
                                         100,000-500,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 20-90
@@ -502,7 +565,7 @@
                             <h2 class="accordion-header" id="flush-headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseFour" aria-expanded="false"
-                                    aria-controls="flush-collapseFour">
+                                    aria-controls="flush-collapseFour" style="font-family: 'Sriracha', cursive;">
                                     หมวด 4 ความผิดเกี่ยวกับทรัพย์สิน (
                                     หากถูกดำเนินคดีก่อนหมดเวลาสตอรี่ริบทรัพย์คืนให้แก่เจ้าทุกข์ทุกกรณี ) (
                                     ผู้บังคับใช้หมวด 4 - <a style="color: cornflowerblue;"> &nbsp;หน่วยงานตำรวจ <a>)
@@ -510,7 +573,8 @@
                             </h2>
                             <div id="flush-collapseFour" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 401 - การกรรโชกทรัพย์ ขู่เข็ญ ข่มขู่
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 401 -
+                                    การกรรโชกทรัพย์ ขู่เข็ญ ข่มขู่
                                     หรือสร้างความหวาดกลัวต่อผู้เล่นอื่น
                                     เพื่อหมายในทรัพย์สินของผู้เล่นนั้น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
                                         20,000-50,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10-20
@@ -573,15 +637,15 @@
                             <h2 class="accordion-header" id="flush-headingFive">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseFive" aria-expanded="false"
-                                    aria-controls="flush-collapseFive">
+                                    aria-controls="flush-collapseFive" style="font-family: 'Sriracha', cursive;">
                                     หมวด 5 ความผิดเกี่ยวกับร่างกายและชีวิต ( ผู้บังคับใช้หมวด 5 - <a
                                         style="color: cornflowerblue;"> &nbsp;หน่วยงานตำรวจ <a>)
                                 </button>
                             </h2>
                             <div id="flush-collapseFive" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 501 - การทำร้ายร่างกายผู้อื่น มีโทษ<a
-                                        style="color:#FF9966	;"> &nbsp;ปรับ 20,000-30,000
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 501 -
+                                    การทำร้ายร่างกายผู้อื่น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 20,000-30,000
                                         เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10 นาที</a> หรือ<a
                                         style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a>
                                     หากมีการใช้อาวุธทำร้ายร่างกาย ให้ผิดมาตรา 205 ร่วมด้วย<br>
@@ -628,14 +692,15 @@
                             <h2 class="accordion-header" id="flush-headingSix">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseSix" aria-expanded="false"
-                                    aria-controls="flush-collapseSix">
+                                    aria-controls="flush-collapseSix" style="font-family: 'Sriracha', cursive;">
                                     หมวด 6 ความผิดเกี่ยวกับการจับกุม ( ผู้บังคับใช้หมวด 6 - <a
                                         style="color: cornflowerblue;"> &nbsp;หน่วยงานตำรวจ <a> )
                                 </button>
                             </h2>
                             <div id="flush-collapseSix" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 601 - การขัดขวางการทำงานของเจ้าหน้าที่
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 601 -
+                                    การขัดขวางการทำงานของเจ้าหน้าที่
                                     ไม่ให้ความร่วมมือ
                                     ไม่ปฏิบัติตามคำสั่งเฉพาะหน้าของเจ้าหน้าที่ จงใจก่อกวน สร้างความลำบากให้เจ้าหน้าที่
                                     มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
@@ -685,14 +750,15 @@
                             <h2 class="accordion-header" id="flush-headingSeven">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseSeven" aria-expanded="false"
-                                    aria-controls="flush-collapseSeven">
+                                    aria-controls="flush-collapseSeven" style="font-family: 'Sriracha', cursive;">
                                     หมวด 7 ความผิดทั่วไป ( ผู้บังคับใช้หมวด 7 - <a style="color: cornflowerblue;">
                                         &nbsp;หน่วยงานตำรวจ <a>)
                                 </button>
                             </h2>
                             <div id="flush-collapseSeven" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">มาตรา 701 - การรบกวนความสงบเรียบร้อย
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 701 -
+                                    การรบกวนความสงบเรียบร้อย
                                     การส่งเสียงดังรบกวนผู้อื่น การด่าทอ หมิ่นประมาท
                                     บูลลี่ผู้อื่นใน IC มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 10,000-100,000
                                         เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10-30 นาที</a><br>
@@ -743,14 +809,15 @@
                             <h2 class="accordion-header" id="flush-headingEight">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseEight" aria-expanded="false"
-                                    aria-controls="flush-collapseEight">
+                                    aria-controls="flush-collapseEight" style="font-family: 'Sriracha', cursive;">
                                     หมวด 8 ความผิดสำหรับหน่วยงานของรัฐ ( ผู้บังคับใช้หมวด 8 - <a style="color: sienna;">
                                         &nbsp;ประธานาธิบดี <a>)
                                 </button>
                             </h2>
                             <div id="flush-collapseEight" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingEight" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">---- กำลังดำเนินการออกกฏหมายให้ครอบคลุมกับทุกหน่วยงาน เร็วๆ
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">----
+                                    กำลังดำเนินการออกกฏหมายให้ครอบคลุมกับทุกหน่วยงาน เร็วๆ
                                     นี้ ----<br></div>
                             </div>
                         </div>
@@ -758,14 +825,15 @@
                             <h2 class="accordion-header" id="flush-headingNine">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseNine" aria-expanded="false"
-                                    aria-controls="flush-collapseNine">
+                                    aria-controls="flush-collapseNine" style="font-family: 'Sriracha', cursive;">
                                     หมวด 9 ความผิดร้ายแรงเกี่ยวกับประเทศ ( ผู้บังคับใช้หมวด 9 - <a
                                         style="color: sienna;"> &nbsp;ประธานาธิบดี <a> )
                                 </button>
                             </h2>
                             <div id="flush-collapseNine" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingNine" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">ในเนื้อหาความผิดของหมวด 9 ค่อนข้างร้ายแรง
+                                <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">
+                                    ในเนื้อหาความผิดของหมวด 9 ค่อนข้างร้ายแรง
                                     <a>
                                         <h6> </h6>ทางผู้ตัดสินความผิดจึงต้องใช้ความรัดกุมที่สุดในการตัดสินความผิด
                                         ถึงแม้สิทธิ์ขาดการตัดสินใจจะอยู่ที่แอดมิน
@@ -887,16 +955,16 @@
                     </div>
                     </scetion>
                 </div>
-    </div>
+            </div>
 
 
-                <!--discord *เสร็จแล้ว-->
-                <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-                    new Crate({
-                        server: '772054063399305236',
-                        channel: '772085739110268948'
-                    })
-                </script>
+            <!--discord *เสร็จแล้ว-->
+            <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+                new Crate({
+                    server: '772054063399305236',
+                    channel: '772085739110268948'
+                })
+            </script>
 
 
 </body>
