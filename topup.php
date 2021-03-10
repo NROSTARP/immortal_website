@@ -1,0 +1,414 @@
+<!doctype html>
+
+<?php
+require('steamauth/steamauth.php');
+?>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+
+    <!--Boostrap *ยังใช้cdnอยู่-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!---Jquery *ยังใช้cdnอยู่-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!--ไอคอน-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr&family=Roboto&family=Sriracha&family=Truculenta&display=swap" rel="stylesheet">
+
+    <!--img logo-->
+    <link rel="shortcut icon" href="pic/logo.png">
+    <title>IMMORTAL CITY | Join to the best society.</title>
+
+    <style>
+        .nav-text {
+
+            margin: 5px;
+        }
+
+        .carousel {
+            padding-top: 50px;
+        }
+    </style>
+
+
+
+
+
+
+
+</head>
+
+<body id="page-top">
+
+
+    <!--MENU *ขาดlogin steam & dialog & ปรับแต่งให้สวยงาม-->
+    <header>
+
+        <div class="fixed-top ">
+            <nav class="navbar navbar-light bg-dark">
+                <div class="container">
+                    <a class="navbar-brand js-scroll-trigger" href="#">
+                        <!--img logo-->
+                        <img src="pic/namelogo.png" alt="" width="275" height="50" class="d-inline-block align-top">
+
+                        <!--nav menu-->
+                        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+                            <div class="container">
+                                <a class="navbar-brand" aria-current="page-top" href="#page-top"></a>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav">
+
+                                        <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" type="button" href="index.php" style="color: honeydew; background-color:#7f0000; margin: 10px; font-family: 'Mitr', sans-serif;">
+                                            หน้าหลัก
+                                        </a>
+
+
+                                        <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" type="button" href="market.php" style="color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;">
+                                            ร้านค้า
+                                        </a>
+
+                                        <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" type="button" href="topup.php" style="color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;">
+                                            เติมเงิน
+                                        </a>
+
+                                        <?php
+                                        if (isset($_SESSION['steamid'])) {
+                                            include('steamauth/userInfo.php');
+                                        } else {
+                                            echo "<a class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
+                                        style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\"href='?login'>เข้าสู่ระบบ</a>";
+                                        }
+                                        ?>
+                                        <!-- $_SESSION['steamid'] เอาไปใช้อ้างอิงใน database เพื่อเก็บยอดเงิน -->
+                                        <?php
+                                        if (isset($_SESSION['steamid'])) {
+                                            echo "<div class=\"dropdown\"><button class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light dropdown-toggle\"
+                                        style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\"  type=\"button\" data-toggle=\"dropdown\">";
+                                            echo $steamprofile['personaname'];
+                                            //ตกแต่งตัว dropdown ตรง style
+                                            echo "<span class=\"caret\"></span></button><ul class=\"dropdown-menu\" style='padding:5px 7px;'>";
+                                            echo "<li><img src=";
+                                            echo $steamprofile['avatarmedium'];
+                                            echo " width='50px' height='50px' ></li>";
+                                            echo "<li><p style='color:#000;'>";
+                                            echo $steamprofile['personaname'];
+                                            echo "</p></li>";
+                                            echo "<li><p style='color:#000;'>";
+                                            echo "ยอดเงิน ";
+                                            echo 0;
+                                            echo "</p></li>";
+                                            echo "<li><form action='' method='get'><button class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
+                                        style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\" type='submit' name='logout'>ออกจากระบบ</button></form></li>";
+                                            echo "</ul></div>";
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <main>
+        <form action="process_topup.php" method="POST" enctype="multipart/form-data">
+            <section class="bg-light page-section" id="law">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+
+                        </div>
+
+                        <div class="row">
+                            <!-- TOPUP -->
+                            <div class="edge-header">
+                                <div class="col-lg-12" style="top:30px;">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-6 mb-4">
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <h2 class="container " style="color: black; font-family: 'Mitr', sans-serif;">เติมเงิน</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <style>
+                                .image-container {
+                                    position: relative;
+                                    width: 50%;
+                                }
+
+                                .image {
+                                    opacity: 1;
+                                    display: block;
+                                    width: 100%;
+                                    height: auto;
+                                    transition: .5s ease;
+                                    backface-visibility: hidden;
+                                }
+
+                                .middle {
+                                    transition: .5s ease;
+                                    opacity: 0;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    -ms-transform: translate(-50%, -50%);
+                                    text-align: center;
+                                }
+
+                                .image-container:hover .image {
+                                    opacity: 0.0;
+                                }
+
+                                .image-container:hover .middle {
+                                    opacity: 1;
+                                }
+
+                                * {
+                                    box-sizing: border-box;
+                                }
+
+                                .zoom:hover {
+                                    -ms-transform: scale(1.5);
+                                    /* IE 9 */
+                                    -webkit-transform: scale(1.5);
+                                    /* Safari 3-8 */
+                                    transform: scale(1.5);
+                                }
+                            </style>
+
+
+                            <!--script ของ ปุ่มอัปโหลด อันนี้ไม่เข้าใจเท่าไหร่ เพราะไปดูเค้ามา-->
+                            <script>
+                                $(document).ready(function() {
+
+                                    var readURL = function(input) {
+                                        if (input.files && input.files[0]) {
+                                            var reader = new FileReader();
+
+                                            reader.onload = function(e) {
+                                                $('.profile-pic').attr('src', e.target.result);
+                                            }
+
+                                            reader.readAsDataURL(input.files[0]);
+                                        }
+                                    }
+
+                                    $(".file-upload").on('change', function() {
+                                        readURL(this);
+                                    });
+
+                                    $(".upload-button").on('click', function() {
+                                        $(".file-upload").click();
+                                    });
+
+                                    $(".profile-pic").on('click', function() {
+                                        $(".file-upload").click();
+                                    });
+                                });
+                            </script>
+
+                            <div class="container free-bird" style="font-family: 'Mitr', sans-serif;">
+                                <div class="row">
+
+                                    <div class="col-lg-4 col-md-12 mb-4 align-items-stretch">
+                                        <div class="card testimonial-card">
+                                            <div class="avatar mx-auto dark"><img src="https://f.ptcdn.info/826/067/000/q4irzx9neyPuFue242td-o.png" alt="avatar mx-auto white" class="img-fluid">
+                                            </div>
+
+                                            <div class="card-body">
+                                                <!--Name-->
+                                                <h4 class="card-title mt-1">True Money Wallet & Prompt Pay</h4>
+                                                <hr>
+                                                <!--Quotation-->
+                                                <p class="card-text">
+                                                    เบอร์โทร: 064-664-4604<br>
+                                                    ชื่อ: นาย ประนาด วันสี<br><br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 mb-4 align-items-stretch">
+                                        <div class="card testimonial-card">
+                                            <div class="avatar mx-auto dark"><img src="https://assets.brandinside.asia/uploads/2017/03/scb-logo.jpg" alt="avatar mx-auto white" class="img-fluid">
+                                            </div>
+
+                                            <div class="card-body">
+                                                <!--Name-->
+                                                <h4 class="card-title mt-1">ธนาคารไทยพาณิชย์</h4>
+                                                <hr>
+                                                <!--Quotation-->
+                                                <p class="card-text">
+                                                    เลขบัญชี: 408-130962-5<br>
+                                                    ธนาคาร: ธนาคารไทยพาณิชย์<br>
+                                                    ชื่อ: นาย นาย ประนาด วันสี<br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-12 col-md-12 mb-4">
+                                        <h2 class="section-heading"> ยืนยันการเติมเงิน </h2>
+                                        <div class="card wider mb-4">
+                                            <div class="card-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-6">
+
+                                                        <ul class="list-group list-group-flush card-text">
+                                                            <li class="list-group-item">
+                                                                สลิปหลักฐานการโอนเงิน
+                                                            </li>
+                                                        </ul>
+                                                        <img src="pic/bill-edit.png" class="profile-pic img-fluid">
+                                                        <div class="middle">
+                                                            <input class="file-upload" type="file" accept="image/x-png,image/bmp,image/jpeg" id="imgInp" name="imgInp" style="width:1px;height:1px;" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-6">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <ul class="list-group list-group-flush card-text">
+                                                                    <li class="list-group-item">
+                                                                        รายละเอียดการโอน ( 1 บาท = 1 cash )
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="card-body">
+
+
+
+                                                                    <section class="section-preview">
+                                                                
+                                                                
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text bg-success text-white ">
+                                                                            <i class="fas fa-money-bill text-white"></i>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!--ที่กรอกเงินที่เติมเงิน-->
+                                                                    <input class="form-control number" type="number" id="comment" name="comment" placeholder="จำนวนเงินโอน" autocomplete="off" required="">
+                                                                </div>
+                                                                <br>
+                                                                <div class="input-group" >
+                                                                    <div class="input-group-prepend ">
+                                                                        <div class="input-group-text bg-warning text-white">
+                                                                            <i class="fas fa-clock text-white" ></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--ที่กรอกเวลาที่เติมเงิน-->
+                                                                    <input class="form-control clockpicker" type="text" id="time_send" name="time_send" placeholder="เวลาที่โอน" autocomplete="off" required="">
+
+                                                                </div>
+                                                                <br>
+                                                                <div class="ht-tm-codeblock">
+                                                                    <div class="ht-tm-element custom-control custom-radio">
+                                                                        <input type="radio" id="customRadio1" name="radio" class="custom-control-input" value="scb" required="">
+                                                                        <label class="custom-control-label" for="customRadio1">โอนเข้าธนาคารไทยพาณิชย์</label>
+                                                                    </div>
+                                                                    <div class="ht-tm-element custom-control custom-radio">
+                                                                        <input type="radio" id="customRadio2" name="radio" class="custom-control-input" value="tw" required="">
+                                                                        <label class="custom-control-label" for="customRadio2">โอนเข้า True Wallet</label>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input cleareeeeeeeee" id="rules" required="">
+                                                                    <label class="custom-control-label" for="rules">อ่านและยอมรับ กฎของเซิร์ฟเวอร์ แล้ว</label>
+
+                                                                </div>
+            </section>
+            </div>
+
+            <!--ที่กดตกลงส่งข้อมูล-->
+            <div class="card-body">
+                <ul class="list-group list-group-flush card-text">
+
+                    <div class="col">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush card-text">
+
+                                <button type="submit" class="ht-tm-element btn btn-shadow text-mono btn-outline-warning waves-effect waves-light">ส่งหลักฐานการโอน</button>
+                            </ul>
+
+                        </div>
+                    </div>
+                </ul>
+
+            </div>
+
+            </div>
+            </div>
+            </div>
+            </div>
+
+
+            </div>
+            </div>
+            </div>
+
+            </div>
+            </div>
+            </div>
+            </div>
+
+            </div>
+            </div>
+
+
+            </section>
+
+    </main>
+    </form>
+
+
+</body>
+
+
+
+
+
+<!--discord *เสร็จแล้ว-->
+<script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+    new Crate({
+        server: '772054063399305236',
+        channel: '772085739110268948'
+    })
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
