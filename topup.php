@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+
+if ($_SESSION['status'] == "admin" or $_SESSION['status'] == "" or !isset($_SESSION['status'])) {
+    header("Location:index.php");
+}
+?>
+
 <!doctype html>
 
 <?php
@@ -307,91 +316,136 @@ require('steamauth/steamauth.php');
 
 
                                                                     <section class="section-preview">
-                                                                
-                                                                
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text bg-success text-white ">
-                                                                            <i class="fas fa-money-bill text-white"></i>
+
+
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <div class="input-group-text bg-success text-white ">
+                                                                                    <i class="fas fa-money-bill text-white"></i>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!--ที่กรอกเงินที่เติมเงิน-->
+                                                                            <input class="form-control number" type="number" id="comment" name="comment" placeholder="จำนวนเงินโอน" autocomplete="off" required="">
                                                                         </div>
-                                                                    </div>
+                                                                        <br>
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend ">
+                                                                                <div class="input-group-text bg-warning text-white">
+                                                                                    <i class="fas fa-clock text-white"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--ที่กรอกเวลาที่เติมเงิน-->
+                                                                            <input class="form-control clockpicker" type="text" id="time_send" name="time_send" placeholder="เวลาที่โอน" autocomplete="off" required="">
 
-                                                                    <!--ที่กรอกเงินที่เติมเงิน-->
-                                                                    <input class="form-control number" type="number" id="comment" name="comment" placeholder="จำนวนเงินโอน" autocomplete="off" required="">
-                                                                </div>
-                                                                <br>
-                                                                <div class="input-group" >
-                                                                    <div class="input-group-prepend ">
-                                                                        <div class="input-group-text bg-warning text-white">
-                                                                            <i class="fas fa-clock text-white" ></i>
                                                                         </div>
-                                                                    </div>
-                                                                    <!--ที่กรอกเวลาที่เติมเงิน-->
-                                                                    <input class="form-control clockpicker" type="text" id="time_send" name="time_send" placeholder="เวลาที่โอน" autocomplete="off" required="">
+                                                                        <br>
+                                                                        <div class="ht-tm-codeblock">
+                                                                            <div class="ht-tm-element custom-control custom-radio">
+                                                                                <input type="radio" id="customRadio1" name="radio" class="custom-control-input" value="scb" required="">
+                                                                                <label class="custom-control-label" for="customRadio1">โอนเข้าธนาคารไทยพาณิชย์</label>
+                                                                            </div>
+                                                                            <div class="ht-tm-element custom-control custom-radio">
+                                                                                <input type="radio" id="customRadio2" name="radio" class="custom-control-input" value="tw" required="">
+                                                                                <label class="custom-control-label" for="customRadio2">โอนเข้า True Wallet</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <br>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input cleareeeeeeeee" id="rules" required="">
+                                                                            <label class="custom-control-label" for="rules">อ่านและยอมรับ กฎของเซิร์ฟเวอร์ แล้ว</label>
+
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
+
+                                                                <!--ที่กดตกลงส่งข้อมูล-->
+                                                                <div class="card-body">
+                                                                    <ul class="list-group list-group-flush card-text">
+
+                                                                        <div class="col">
+                                                                            <div class="card-body">
+                                                                                <ul class="list-group list-group-flush card-text">
+
+                                                                                    <button type="submit" class="ht-tm-element btn btn-shadow text-mono btn-outline-warning waves-effect waves-light">ส่งหลักฐานการโอน</button>
+                                                                                </ul>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
 
                                                                 </div>
-                                                                <br>
-                                                                <div class="ht-tm-codeblock">
-                                                                    <div class="ht-tm-element custom-control custom-radio">
-                                                                        <input type="radio" id="customRadio1" name="radio" class="custom-control-input" value="scb" required="">
-                                                                        <label class="custom-control-label" for="customRadio1">โอนเข้าธนาคารไทยพาณิชย์</label>
-                                                                    </div>
-                                                                    <div class="ht-tm-element custom-control custom-radio">
-                                                                        <input type="radio" id="customRadio2" name="radio" class="custom-control-input" value="tw" required="">
-                                                                        <label class="custom-control-label" for="customRadio2">โอนเข้า True Wallet</label>
-                                                                    </div>
-                                                                </div>
-                                                                <br>
-                                                                <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input cleareeeeeeeee" id="rules" required="">
-                                                                    <label class="custom-control-label" for="rules">อ่านและยอมรับ กฎของเซิร์ฟเวอร์ แล้ว</label>
 
-                                                                </div>
-            </section>
-            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-            <!--ที่กดตกลงส่งข้อมูล-->
-            <div class="card-body">
-                <ul class="list-group list-group-flush card-text">
 
-                    <div class="col">
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush card-text">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <button type="submit" class="ht-tm-element btn btn-shadow text-mono btn-outline-warning waves-effect waves-light">ส่งหลักฐานการโอน</button>
-                            </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 mb-4">
+                            <h2 class="section-heading"> ประวัติการเติมเงิน</h2>
+                            <div class="card wider mb-4">
+                                <div class="card-body" id="donate_history">
+                                    <div class="card-body" id="donate_history">
+                                        <table class="table table-striped" id="dtHorizontalVerticalExample_full" cellspacing="0" style="table-layout: fixed;">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" width="130">วันที่</th>
+                                                    <th scope="col" width="300">สลิป</th>
+                                                    <th scope="col" width="100">เงินโอน</th>
+                                                    <th scope="col" width="90">เครดิต</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
+                                                <tr id="donate_check">
+                                                    <td class="align-middle">
+                                                        <center><i class="fas fa-check text-success" title="ผ่าน"></i> 14 มีนาคม 2021 <br>13:37 น.</center>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <center><a href="img"><img id="confirm_img" src="img" style="max-height:200px" class="zoom img-fluid"></a></center>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <center>
+                                                            <div class="fas fa-money-bill "><i class="rounded-circle img-fluid" style="width:25%"> 100</div>
+                                                        </center>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <center>
+                                                            <div class="bg-success text-white">
+                                                                <center><i class="fas fa-money-bill"></i> 100</center>
+                                                            </div>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                การโดเนทเป็นการบริจาคให้กับเซิร์ฟเวอร์เพื่อสนับสนุนผู้พัฒนาระบบ<br>
+                                การบริจาคไม่สามารถรับเงินสนับสนุนคืนได้
+                            </p>
                         </div>
                     </div>
-                </ul>
 
-            </div>
-
-            </div>
-            </div>
-            </div>
-            </div>
-
-
-            </div>
-            </div>
-            </div>
-
-            </div>
-            </div>
-            </div>
-            </div>
-
-            </div>
-            </div>
+                </div>
+                </div>
 
 
             </section>
 
     </main>
     </form>
-
-
 </body>
 
 

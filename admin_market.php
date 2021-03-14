@@ -6,7 +6,7 @@ $connect = mysqli_connect('localhost:3306','cp211374_tao','sawada0765','cp211374
         echo 'Failed to connect';
     }
 
-$sql = "SELECT * FROM topup_database";
+$sql = "SELECT * FROM market_database";
 $result = $connect->query($sql);
 
 
@@ -122,7 +122,7 @@ if($_SESSION['status']!="admin"){
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav">
-                                        <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" type="button" href="index.php" style="color: honeydew; background-color:#964800; margin: 10px;">
+                                    <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" type="button" href="index.php" style="color: honeydew; background-color:#964800; margin: 10px;">
                                             หน้าหลัก
                                         </a>
                                         <a class="ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light" type="button" href="admin_topup.php" style="color: honeydew; background-color:#964800; margin: 10px;">
@@ -150,17 +150,18 @@ if($_SESSION['status']!="admin"){
     <br>
     <br>
     <div class="container-fiuld">
-        <h1>Topup List</h1>
+        <h1>Market List List</h1>
         <table>
             <thead>
                 <tr>
                     <td width="5%">#</td>
-                    <td width="25%">Date</td>
-                    <td width="25%">Name_id</td>
-                    <td width="25%">Name_user</td>
-                    <td width="25%">Topup</td>
-                    <td width="25%">Bill</td>
-                    <td width="25%">Action</td>
+                    <td width="20%">Date</td>
+                    <td width="20%">Name_id</td>
+                    <td width="20%">Name_user</td>
+                    <td width="25%">Item</td>
+                    <td width="25%">Quantity</td>
+                    <td width="25%">Price</td>
+                    <td width="25%">action</td>
                 </tr>
             </thead>
             <tbody>
@@ -170,8 +171,9 @@ if($_SESSION['status']!="admin"){
                         <td><?php echo $row['Numbers']; ?></td>
                         <td><?php echo $row['Name_id']; ?></td>
                         <td><?php echo $row['Name_user']; ?></td>
-                        <td><?php echo $row['topup']; ?></td>
-                        <td><img src=<?php echo $row['bill']; ?> ></td>
+                        <td><?php echo $row['Item']; ?></td>
+                        <td><?php echo $row['Quantity']; ?></td>
+                        <td><?php echo $row['Price']; ?></td>
                         <td><button onclick="send('<?php echo $row['Name_id']; ?>',<?php echo $row['topup']; ?>,<?php echo $row['No.']; ?>)">อนุมัติ</button></td>
                        
                     </tr>
@@ -183,7 +185,7 @@ if($_SESSION['status']!="admin"){
 <script type="text/javascript">
     function send(id,money,no){
         console.log(id,money,no)
-        $.post( "admin_process_topup.php", { name: id, num: money,count:no },function(data){
+        $.post( "admin_process_market.php", { name: id, num: money,count:no },function(data){
             console.log(data)
             location.reload();
         });

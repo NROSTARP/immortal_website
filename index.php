@@ -33,34 +33,35 @@ require('steamauth/steamauth.php');
             padding-top: 50px;
         }
 
-        .modal-header{
+        .modal-header {
             background-color: #ff8000;
-            
+
         }
 
         .col-lg-8 {
             margin-left: 75px;
-            
-             width: 650px;
-             height: 500px;
+
+            width: 650px;
+            height: 500px;
         }
 
         .col-lg-4 {
             margin-left: 80px;
             padding-top: 30px;
         }
-        
-        .wider{
+
+        .wider {
             background-image: url('https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Minimalist-Crumpled-Paper-Simple-Background-Image.jpg');
         }
 
         .zoom:hover {
-                                    -ms-transform: scale(1.5);
-                                    /* IE 9 */
-                                    -webkit-transform: scale(1.5);
-                                    /* Safari 3-8 */
-                                    transform: scale(1.5);
-                                }
+            -ms-transform: scale(1.5);
+            /* IE 9 */
+            -webkit-transform: scale(1.5);
+            /* Safari 3-8 */
+            transform: scale(1.5);
+        }
+
         /*
         font-family: 'Mitr', sans-serif;
         font-family: 'Roboto', sans-serif;
@@ -87,7 +88,7 @@ require('steamauth/steamauth.php');
                 <div class="container">
                     <a class="navbar-brand js-scroll-trigger" href="#">
                         <!--img logo-->
-                        <img src="pic/namelogo.png" alt="" width="275" height="50" class="d-inline-block align-top">
+                        <img src="pic/namelogo.png" alt="" width="250" height="50" class="d-inline-block align-top">
 
                         <!--nav menu-->
                         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -118,25 +119,47 @@ require('steamauth/steamauth.php');
 
                                         <!--ปุ่มล็อกอิน-->
 
-
                                         <?php
                                         if (isset($_SESSION['steamid'])) {
-
-                                            echo "<a class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
-                                                type=\"button\" href='topup.php'
-                                                style=\"color: honeydew; background-color:#964800; margin: 10px; font-family: 'Mitr', sans-serif;\">
-                                                ร้านค้า & เติมเงิน</a>";
-
                                             include('steamauth/userInfo.php');
                                         } else {
                                             echo "<a class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
                                             style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\"href='?login'>เข้าสู่ระบบ</a>";
+                                            $_SESSION['status'] = "";
                                         }
                                         ?>
                                         <!-- $_SESSION['steamid'] เอาไปใช้อ้างอิงใน database เพื่อเก็บยอดเงิน -->
                                         <?php
+                                        ini_set('display_errors', 0);
+                                        ini_set('display_startup_errors', 0);
+                                        ?>
+                                        <?php
+
                                         if (isset($_SESSION['steamid'])) {
-                                            
+                                            include 'connect_topup.php';
+                                            $sql = "SELECT * FROM user_database WHERE id='" . ($_SESSION['steam_steamid']) . "'";
+                                            $result = $connect->query($sql);
+                                            $moneys = 0;
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $moneys = $row["money"];
+                                                    if ($row["status"] == "admin") {
+                                                        $_SESSION['status'] = "admin";
+                                                        echo "<a class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
+                                            style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\"href='admin_topup.php'>Manage</a>";
+                                                    } else {
+                                                        $_SESSION['status'] = $_SESSION['steam_steamid'];
+                                                        echo "<a class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
+                                            style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\"href='topup.php'>เติมเงิน</a>";
+                                                    }
+                                                }
+                                            } else {
+                                                $sql = "INSERT INTO user_database (id, name, image,money,status)
+VALUES ('" . ($_SESSION['steam_steamid']) . "', '" . $steamprofile['personaname'] . "', '" . $steamprofile['avatarmedium'] . "','0','[]')";
+                                                $result = $connect->query($sql);
+                                            }
+                                            $connect->close();
+
                                             echo "<div class=\"dropdown\"><button class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light dropdown-toggle\"
                                             style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\"  type=\"button\" data-toggle=\"dropdown\">";
                                             echo $steamprofile['personaname'];
@@ -150,15 +173,15 @@ require('steamauth/steamauth.php');
                                             echo "</p></li>";
                                             echo "<li><p style='color:#000;'>";
                                             echo "ยอดเงิน ";
-                                            echo 0;
+                                            echo $moneys;
                                             echo "</p></li>";
                                             echo "<li><form action='' method='get'><button class=\"ht-tm-element btn btn-shadow text-mono btn-outline-warning active waves-effect waves-light\"
                                             style=\"color: honeydew; background-color:#007200; margin: 10px; font-family: 'Mitr', sans-serif;\" type='submit' name='logout'>ออกจากระบบ</button></form></li>";
                                             echo "</ul></div>";
                                         }
                                         ?>
-                                        < </div>
                                 </div>
+                            </div>
                         </nav>
                     </a>
                 </div>
@@ -169,16 +192,16 @@ require('steamauth/steamauth.php');
 
     </header>
 
-    <div class="modal fade right" id="howto_1" tabindex="-1" role="dialog" aria-labelledby="model_howto_1" style="font-family: 'Mitr', sans-serif;" aria-hidden="true" >
-        <div class="modal-dialog modal-lg modal-notify modal-success text-white" role="document" >
+    <div class="modal fade right" id="howto_1" tabindex="-1" role="dialog" aria-labelledby="model_howto_1" style="font-family: 'Mitr', sans-serif;" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-notify modal-success text-white" role="document">
             <div class="modal-content" style="color:black;">
                 <div class="modal-header">
-                    <h4 class="modal-title w-100" id="model_howto_1"style="color:white;" >แนะนำวิธีการเล่นขั้นพื้นฐาน</h4>
+                    <h4 class="modal-title w-100" id="model_howto_1" style="color:white;">แนะนำวิธีการเล่นขั้นพื้นฐาน</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="white-text">×</span></button>
                 </div>
                 <div class="modal-body">
-                    
-                    
+
+
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 mb-4">
@@ -199,15 +222,15 @@ require('steamauth/steamauth.php');
                                                         <h4 class="card-title text-dark">เข้าประเทศครั้งแรก</h4>
 
                                                         <!--Text-->
-                                                        <p  class="card-text">
+                                                        <p class="card-text">
                                                             เข้าประเทศมาครั้งแรกให้ใส่ ชื่อ นามสกุล เป็นตัวภาษาอังกฤษตัวแรกตัวใหญ่ทั้งชื่อและนามสกุล หลังจากนั้นให้ทำการระบุ วัน/เดือน/ปีเกิด ส่วนสูง และ เพศ ให้ถูกต้อง
                                                         </p>
                                                         <img src="pic/dialog1_img/register.png" width="100%"><br><br>
-                                                        <p  class="card-text">
+                                                        <p class="card-text">
                                                             หลังจากนั้นจะเข้าตรง Job Center ประชาชนที่เข้าครั้งแรกจะแต่งตัวฟรี ในการเข้าครั้งแรกเท่านั้น หลังจากแต่งเสร็จเเล้วให้กด <kbd>Enter</kbd>
                                                         </p>
                                                         <img src="pic/dialog1_img/costume.png" width="100%"><br><br>
-                                                        <p  class="card-text">
+                                                        <p class="card-text">
                                                             ทางประเทศของเราจะแจกรถให้ประชาชนฟรี คันแรก 40 KG โดยวิธีการกดรับไอเทมรายวันจะอยู่ตรงมุมขวาบนของบนของหน้าจอ ให้ประชาชนกด <kbd>F11</kbd> เพื่อรับไอเทม และ สามารถไปรับรถได้ที่การาจฟ้าในเมือง
                                                         </p>
                                                         <img src="pic/dialog1_img/carfd.png" width="100%"><br><br>
@@ -252,17 +275,17 @@ require('steamauth/steamauth.php');
                                                         <img src="pic/dialog1_img/mobile.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        การเปิดระบบควบคุมโทรศัพท์ด้วยเมาส์ (ตามความถนัดของแต่ละบุคคล) ให้ไปที่ตั้งค่าในโทรศัพท์ จากนั้นให้ไปที่เมนู การควบคุมด้วยเมาส์ แล้วเลือกไปที่ <kbd>Yes</kbd> เป็นอันเสร็จสิ้น ก็จะได้การควบคุมด้วยเมาส์มาเเล้ว
+                                                            การเปิดระบบควบคุมโทรศัพท์ด้วยเมาส์ (ตามความถนัดของแต่ละบุคคล) ให้ไปที่ตั้งค่าในโทรศัพท์ จากนั้นให้ไปที่เมนู การควบคุมด้วยเมาส์ แล้วเลือกไปที่ <kbd>Yes</kbd> เป็นอันเสร็จสิ้น ก็จะได้การควบคุมด้วยเมาส์มาเเล้ว
                                                         </p>
                                                         <img src="pic/dialog1_img/control.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        การชำระบิล ให้กด <kbd>G</kbd> ค้างเเล้วเลื่อนเมาส์ไปที่บิลเพื่อแสดงบิล เมื่อเข้ามาเเล้วจะแสดงที่เราได้รับมา เช่น ตำรวจ หมอ และ ช่าง กดชำระบิลโดยการ กด <kbd>Enter</kbd> ที่บิลที่เราต้องการจะชำระ
+                                                            การชำระบิล ให้กด <kbd>G</kbd> ค้างเเล้วเลื่อนเมาส์ไปที่บิลเพื่อแสดงบิล เมื่อเข้ามาเเล้วจะแสดงที่เราได้รับมา เช่น ตำรวจ หมอ และ ช่าง กดชำระบิลโดยการ กด <kbd>Enter</kbd> ที่บิลที่เราต้องการจะชำระ
                                                         </p>
                                                         <img src="pic/dialog1_img/showbill.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        การเปิดดูบัตรประจำตัว กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่บัตร แล้วกดคลิกหนึ่งครั้ง จากนั้นสามารถเลือกไปที่บัตรต่างๆ เพื่อแสดงบัตรดังรูป
+                                                            การเปิดดูบัตรประจำตัว กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่บัตร แล้วกดคลิกหนึ่งครั้ง จากนั้นสามารถเลือกไปที่บัตรต่างๆ เพื่อแสดงบัตรดังรูป
 
                                                         </p>
                                                         <img src="pic/dialog1_img/id-console.png" width="100%"><br><br>
@@ -270,23 +293,23 @@ require('steamauth/steamauth.php');
 
 
                                                         <p class="card-text">
-                                                        การอุ้ม กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่อื่นๆ จากนั้น ไปที่อุ้ม แล้วกดคลิกหนึ่งครั้ง จากนั้นจะแสดงเมนู การอุ้ม ขึ้นมาดังรูป (การอุ้มจำเป็นให้ผ่ายที่ถูกอุ้มกดยอมรับในกรณีที่ผู้เล่นคนนั้นยังไม่โคม่าหรือสลบ)
+                                                            การอุ้ม กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่อื่นๆ จากนั้น ไปที่อุ้ม แล้วกดคลิกหนึ่งครั้ง จากนั้นจะแสดงเมนู การอุ้ม ขึ้นมาดังรูป (การอุ้มจำเป็นให้ผ่ายที่ถูกอุ้มกดยอมรับในกรณีที่ผู้เล่นคนนั้นยังไม่โคม่าหรือสลบ)
                                                         </p>
                                                         <img src="pic/dialog1_img/picking.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        การเรียกช่าง กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่เรียกช่าง จะส่งGps ไปให้ช่างอัตโนมัติ
+                                                            การเรียกช่าง กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่เรียกช่าง จะส่งGps ไปให้ช่างอัตโนมัติ
                                                         </p>
                                                         <img src="pic/dialog1_img/call.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        การแสดงท่าทางอื่นๆ กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่อื่นๆ จากนั้น ไปที่ท่าทางต่างๆ แล้วกดคลิกหนึ่งครั้ง
+                                                            การแสดงท่าทางอื่นๆ กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่อื่นๆ จากนั้น ไปที่ท่าทางต่างๆ แล้วกดคลิกหนึ่งครั้ง
 
                                                         </p>
                                                         <img src="pic/dialog1_img/goemote.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        จากนั้นจะสามารถเลือกใช้ท่าทางต่างๆ เช่น เต้น ปรบมือ เป็นต้น
+                                                            จากนั้นจะสามารถเลือกใช้ท่าทางต่างๆ เช่น เต้น ปรบมือ เป็นต้น
                                                         </p>
                                                         <img src="pic/dialog1_img/emote.png" width="100%"><br><br>
                                                     </div>
@@ -334,12 +357,12 @@ require('steamauth/steamauth.php');
 
                                                         <!--Text-->
                                                         <p class="card-text">
-                                                        รัดเข็มขัด กด <kbd>K</kbd> ขณะอยู่ในรถเท่านั้นล็อกรถ/ปลดล็อกรถ กด <kbd>L</kbd> เปิดหลังรถ/ที่เก็บของ กด <kbd>M</kbd> (รถต้องไม่ทำการล็อคอยู่) การควบคุมส่วนอื่นๆ  กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่อื่นๆ จากนั้น ไปที่ควบคุมรถ แล้วกดคลิกหนึ่งครั้ง
+                                                            รัดเข็มขัด กด <kbd>K</kbd> ขณะอยู่ในรถเท่านั้นล็อกรถ/ปลดล็อกรถ กด <kbd>L</kbd> เปิดหลังรถ/ที่เก็บของ กด <kbd>M</kbd> (รถต้องไม่ทำการล็อคอยู่) การควบคุมส่วนอื่นๆ กด <kbd>G</kbd> ค้าง เเล้วเลื่อนเมาส์ไปที่อื่นๆ จากนั้น ไปที่ควบคุมรถ แล้วกดคลิกหนึ่งครั้ง
                                                         </p>
                                                         <img src="pic/dialog1_img/gocontrolcar.png" width="100%"><br><br>
 
                                                         <p class="card-text">
-                                                        จากนั้นสามารถเปิดทุดส่วนที่รถสามารถเปิดได้ผ่านทางเมนูนี้
+                                                            จากนั้นสามารถเปิดทุดส่วนที่รถสามารถเปิดได้ผ่านทางเมนูนี้
                                                         </p>
                                                         <img src="pic/dialog1_img/controlcar.png" width="100%"><br><br>
 
@@ -394,7 +417,7 @@ require('steamauth/steamauth.php');
             <br>
 
             <img src="pic/web_wallpeper.png" width="1920" height="1080">
-            
+
             <div class="container">
 
                 <div class="text-mono">
@@ -410,192 +433,195 @@ require('steamauth/steamauth.php');
                 </center>
 
 
-        <div class="card wider mb-4 cloudy-knoxville-gradient">
-                <div class="row">
-					<div class="col-lg-8 col-md-8 mb-4 " >		
-						<div id="carousel-thumb" class="carousel slide carousel-fade" data-ride="carousel">
-							<div class="carousel-inner" role="listbox" >
-																<div class="carousel-item">
-									<img class="d-block w-100" src="pic/carousel_img/unknown1.png" width="450px" height="400px">
-								</div>
-																<div class="carousel-item active">
-									<img class="d-block w-100" src="pic/carousel_img/unknown2.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown3.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown4.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown5.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown6.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown7.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown8.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown9.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown10.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown11.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown12.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown13.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown14.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown15.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown16.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown17.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown18.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown19.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown20.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown21.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown22.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown23.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown24.png"width="450px" height="400px">
-								</div>
-																<div class="carousel-item ">
-									<img class="d-block w-100" src="pic/carousel_img/unknown25.png"width="450px" height="400px">
-								</div>
-															</div>
-							<a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-							<ol class="carousel-indicators">
-																	<li data-target="#carousel-thumb" data-slide-to="0" class="">
-										<img src="pic/carousel_img/unknown1.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="1" class="active">
-										<img src="pic/carousel_img/unknown2.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="2" class="">
-										<img src="pic/carousel_img/unknown3.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="3" class="">
-										<img src="pic/carousel_img/unknown4.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="4" class="">
-										<img src="pic/carousel_img/unknown5.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="5" class="">
-										<img src="pic/carousel_img/unknown6.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="6" class="">
-										<img src="pic/carousel_img/unknown7.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="7" class="">
-										<img src="pic/carousel_img/unknown8.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="8" class="">
-										<img src="pic/carousel_img/unknown9.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="9" class="">
-										<img src="pic/carousel_img/unknown10.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="10" class="">
-										<img src="pic/carousel_img/unknown11.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="11" class="">
-										<img src="pic/carousel_img/unknown12.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="12" class="">
-										<img src="pic/carousel_img/unknown13.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="13" class="">
-										<img src="pic/carousel_img/unknown14.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="14" class="">
-										<img src="pic/carousel_img/unknown15.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="15" class="">
-										<img src="pic/carousel_img/unknown16.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="16" class="">
-										<img src="pic/carousel_img/unknown17.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="17" class="">
-										<img src="pic/carousel_img/unknown18.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="18" class="">
-										<img src="pic/carousel_img/unknown19.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="19" class="">
-										<img src="pic/carousel_img/unknown20.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="20" class="">
-										<img src="pic/carousel_img/unknown21.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="21" class="">
-										<img src="pic/carousel_img/unknown22.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="22" class="">
-										<img src="pic/carousel_img/unknown23.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="23" class="">
-										<img src="pic/carousel_img/unknown24.png" width="100">
-									</li>
-																	<li data-target="#carousel-thumb" data-slide-to="24" class="">
-										<img src="pic/carousel_img/unknown25.png" width="100">
-									</li>
-								</ol>
+                <div class="card wider mb-4 cloudy-knoxville-gradient">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 mb-4 ">
+                            <div id="carousel-thumb" class="carousel slide carousel-fade" data-ride="carousel">
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown1.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown2.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown3.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown4.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown5.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown6.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown7.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown8.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown9.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown10.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown11.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown12.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown13.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown14.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown15.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown16.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown17.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown18.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown19.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown20.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown21.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown22.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown23.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown24.png" width="450px" height="400px">
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img class="d-block w-100" src="pic/carousel_img/unknown25.png" width="450px" height="400px">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel-thumb" data-slide-to="0" class="">
+                                        <img src="pic/carousel_img/unknown1.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="1" class="active">
+                                        <img src="pic/carousel_img/unknown2.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="2" class="">
+                                        <img src="pic/carousel_img/unknown3.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="3" class="">
+                                        <img src="pic/carousel_img/unknown4.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="4" class="">
+                                        <img src="pic/carousel_img/unknown5.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="5" class="">
+                                        <img src="pic/carousel_img/unknown6.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="6" class="">
+                                        <img src="pic/carousel_img/unknown7.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="7" class="">
+                                        <img src="pic/carousel_img/unknown8.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="8" class="">
+                                        <img src="pic/carousel_img/unknown9.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="9" class="">
+                                        <img src="pic/carousel_img/unknown10.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="10" class="">
+                                        <img src="pic/carousel_img/unknown11.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="11" class="">
+                                        <img src="pic/carousel_img/unknown12.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="12" class="">
+                                        <img src="pic/carousel_img/unknown13.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="13" class="">
+                                        <img src="pic/carousel_img/unknown14.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="14" class="">
+                                        <img src="pic/carousel_img/unknown15.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="15" class="">
+                                        <img src="pic/carousel_img/unknown16.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="16" class="">
+                                        <img src="pic/carousel_img/unknown17.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="17" class="">
+                                        <img src="pic/carousel_img/unknown18.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="18" class="">
+                                        <img src="pic/carousel_img/unknown19.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="19" class="">
+                                        <img src="pic/carousel_img/unknown20.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="20" class="">
+                                        <img src="pic/carousel_img/unknown21.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="21" class="">
+                                        <img src="pic/carousel_img/unknown22.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="22" class="">
+                                        <img src="pic/carousel_img/unknown23.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="23" class="">
+                                        <img src="pic/carousel_img/unknown24.png" width="100">
+                                    </li>
+                                    <li data-target="#carousel-thumb" data-slide-to="24" class="">
+                                        <img src="pic/carousel_img/unknown25.png" width="100">
+                                    </li>
+                                </ol>
                                 <br><br>
-						</div>
-					</div>
-                                        
-					<div class="col-lg-4 col-md-4 ">		
-						<div class="card-body card-body-cascade" style="font-family: 'Mitr', sans-serif;">
-							<h3 class="card-title">RolePlay?</h3>
-							<p class="card-text text-dark">เล่นจำลองเป็นมนุษย์ ต้องมีความคิดการกระทำตอบสนองต่อสิ่งต่างๆโดยยึดหลักความเป็นจริงเช่น กลัวปืน อยากรวย อยากมีอำนาจ ชื่อเสียง และอื่นๆ คุณสามารถเป็นอะไรก็ได้ที่คนเขาเป็น เช่น มาเฟียร์ ตำรวจ หมอ คนธรรมดา โดยวิธีการเข้าก็ขึ้นอยู่กับหลีดเดอร์ของอาชีพนั้นๆ</p>
-						</div>
-                        <br>
-                        
-						<div class="card-body card-body-cascade">
-							<a type="button" class="btn btn-outline-danger btn-lg text-lg btn-block waves-effect waves-light" id="download" href="https://runtime.fivem.net/client/FiveM.exe"><i class="fas fa-download" style="font-family: 'Sriracha', cursive;"></i> <b>ดาวน์โหลดเกม<br><span style="color:gray">Download</span></b></a><b>
-														
-							<a type="button" class="btn btn-outline-success btn-lg text-lg btn-block waves-effect waves-light" href="fivem://connect/immortalcity-rpth.com"><i class="fas fa-sign-in-alt" style="font-family: 'Sriracha', cursive;"></i>PLAY GAME</a>
-						</b></div><b>
-					</b></div><b>
-				</b></div> 
+                            </div>
+                        </div>
 
-        </div>
+                        <div class="col-lg-4 col-md-4 ">
+                            <div class="card-body card-body-cascade" style="font-family: 'Mitr', sans-serif;">
+                                <h3 class="card-title">RolePlay?</h3>
+                                <p class="card-text text-dark">เล่นจำลองเป็นมนุษย์ ต้องมีความคิดการกระทำตอบสนองต่อสิ่งต่างๆโดยยึดหลักความเป็นจริงเช่น กลัวปืน อยากรวย อยากมีอำนาจ ชื่อเสียง และอื่นๆ คุณสามารถเป็นอะไรก็ได้ที่คนเขาเป็น เช่น มาเฟียร์ ตำรวจ หมอ คนธรรมดา โดยวิธีการเข้าก็ขึ้นอยู่กับหลีดเดอร์ของอาชีพนั้นๆ</p>
+                            </div>
+                            <br>
+
+                            <div class="card-body card-body-cascade">
+                                <a type="button" class="btn btn-outline-danger btn-lg text-lg btn-block waves-effect waves-light" id="download" href="https://runtime.fivem.net/client/FiveM.exe"><i class="fas fa-download" style="font-family: 'Sriracha', cursive;"></i> <b>ดาวน์โหลดเกม<br><span style="color:gray">Download</span></b></a><b>
+
+                                    <a type="button" class="btn btn-outline-success btn-lg text-lg btn-block waves-effect waves-light" href="fivem://connect/immortalcity-rpth.com"><i class="fas fa-sign-in-alt" style="font-family: 'Sriracha', cursive;"></i>PLAY GAME</a>
+                                </b>
+                            </div><b>
+                            </b>
+                        </div><b>
+                        </b>
+                    </div>
+
+                </div>
 
 
 
@@ -841,18 +867,18 @@ require('steamauth/steamauth.php');
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 101 -
-                                    การฝ่าฝืนสัญญาณไฟจราจร มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 3,000-5,000
+                                    การฝ่าฝืนสัญญาณไฟจราจร มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 3,000-5,000
                                         เหรียญ </a><br>
 
-                                    มาตรา 102 - การขับรถเร็วเกินกว่าที่กฏหมายกำหนด มีโทษ<a style="color:#FF9966	;">
+                                    มาตรา 102 - การขับรถเร็วเกินกว่าที่กฏหมายกำหนด มีโทษ<a style="color:#FF9966 ;">
                                         &nbsp;ปรับ 5,000-10,000 เหรียญ </a><br>
 
-                                    มาตรา 103 - การจอดรถในที่ห้ามจอด <a style="color:#590808	;">
-                                        กรณีที่มีเจ้าของรถอยู่ด้วย</a> มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 5,000
+                                    มาตรา 103 - การจอดรถในที่ห้ามจอด <a style="color:#590808    ;">
+                                        กรณีที่มีเจ้าของรถอยู่ด้วย</a> มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 5,000
                                         เหรียญ</a><br>
 
-                                    มาตรา 104 - การจอดรถในที่ห้ามจอด <a style="color:#058c46	;">
-                                        กรณีที่ไม่มีเจ้าของรถอยู่ด้วย</a> มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
+                                    มาตรา 104 - การจอดรถในที่ห้ามจอด <a style="color:#058c46    ;">
+                                        กรณีที่ไม่มีเจ้าของรถอยู่ด้วย</a> มีโทษ<a style="color:#FF9966  ;"> &nbsp;ปรับ
                                         5,000
                                         เหรียญ</a> และ<a style="color:#5f00bf;"> &nbsp;ยึดรถของกลาง</a><br>
 
@@ -860,33 +886,33 @@ require('steamauth/steamauth.php');
                                     ขับผิดเลนหรือกินเลนไม่สวมหมวกนิรภัยหรือคาดเข็มขัดนิรภัย
                                     มีโทษ<a style="color:#FF9966;"> &nbsp;ปรับ 2,000-3,000 เหรียญ</a><br>
 
-                                    มาตรา 106 - การขับรถโดยประมาท ทำให้ทรัพย์สินเสียหาย มีโทษ<a style="color:#FF9966	;">
+                                    มาตรา 106 - การขับรถโดยประมาท ทำให้ทรัพย์สินเสียหาย มีโทษ<a style="color:#FF9966    ;">
                                         &nbsp;ปรับ 3,000-10,000 เหรียญ</a>
                                     หรือ <a style="color:#bf0000;"> &nbsp;จำคุก 10 นาที</a><br>
 
-                                    มาตรา 107 - การขับรถโดยประมาท ทำให้ผู้อื่นถึงแก่ความตาย มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 50,000 เหรียญ</a> หรือ
+                                    มาตรา 107 - การขับรถโดยประมาท ทำให้ผู้อื่นถึงแก่ความตาย มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 50,000 เหรียญ</a> หรือ
                                     <a style="color:#bf0000;"> &nbsp;จำคุก 15-20 นาที</a><br>
 
-                                    มาตรา 108 - การขับรถกีดขวางรถราชการหรือรถพยาบาลที่เปิดไซเรนฉุกเฉิน มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ5,000-10,000 เหรียญ</a><br>
+                                    มาตรา 108 - การขับรถกีดขวางรถราชการหรือรถพยาบาลที่เปิดไซเรนฉุกเฉิน มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ5,000-10,000 เหรียญ</a><br>
 
                                     มาตรา 109 - การขัดขวางการปฏิบัติหน้าที่ของเจ้าหน้าที่
-                                    การไม่ยอมหยุดรถให้เจ้าหน้าที่ตรวจค้นหรือการหลบหนีการจับกุม มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 10,000-50,000
+                                    การไม่ยอมหยุดรถให้เจ้าหน้าที่ตรวจค้นหรือการหลบหนีการจับกุม มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 10,000-50,000
                                         เหรียญ</a>
-                                    หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15-20 นาที</a><br>
+                                    หรือ<a style="color:#bf0000 ;"> &nbsp;จำคุก 15-20 นาที</a><br>
 
                                     มาตรา 110 - การแข่งรถในที่สาธารณะโดยที่ไม่ได้รับอนุญาตจากทางราชการ ถือเป็นความผิด
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        10,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10 นาที</a><br>
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        10,000 เหรียญ</a> หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 10 นาที</a><br>
 
-                                    มาตรา 111 - การขับขี่ยานพาหนะโดยไม่มีใบอนุญาตของยานพาหนะประเภทนั้นๆ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 10,000
+                                    มาตรา 111 - การขับขี่ยานพาหนะโดยไม่มีใบอนุญาตของยานพาหนะประเภทนั้นๆ มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 10,000
                                         เหรียญ</a><br>
                                     มาตรา 112 - การดูหมิ่นเจ้าพนักงานปฏิบัติหน้าที่อย่างร้ายแรง โดยไม่มีมูลเหตุอันควร
-                                    มีโทษ<a style="color:#bf0000	;"> &nbsp;จำคุก
+                                    มีโทษ<a style="color:#bf0000    ;"> &nbsp;จำคุก
                                         5-15 นาที</a><br>
-                                    มาตรา 113 - การเสพของมึนเมาทุกชนิดขณะขับรถ มีโทษ<a style="color:#FF9966	;">
-                                        &nbsp;ปรับ 20,000-30,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก
+                                    มาตรา 113 - การเสพของมึนเมาทุกชนิดขณะขับรถ มีโทษ<a style="color:#FF9966 ;">
+                                        &nbsp;ปรับ 20,000-30,000 เหรียญ</a> หรือ <a style="color:#bf0000    ;"> &nbsp;จำคุก
                                         10-20 นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
                                 </div>
                             </div>
                         </div>
@@ -898,29 +924,29 @@ require('steamauth/steamauth.php');
                             </h2>
                             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 201 -
-                                    การสำแดงหรือโชว์อาวุธทุกชนิดในที่สาธารณะโดยไม่มีเหตุอันควร มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 10,000-50,000
-                                        เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 5-30 นาที</a> <a style="color:#5f00bf	;"> &nbsp;หากเป็นอาวุธผิดกฏหมาย ให้ยึดอาวุธ</a><br>
-                                    มาตรา 202 - การครอบครองอาวุธสงครามผิดกฏหมาย มีโทษ<a style="color:#FF9966	;">
+                                    การสำแดงหรือโชว์อาวุธทุกชนิดในที่สาธารณะโดยไม่มีเหตุอันควร มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 10,000-50,000
+                                        เหรียญ</a> หรือ <a style="color:#bf0000 ;"> &nbsp;จำคุก 5-30 นาที</a> <a style="color:#5f00bf   ;"> &nbsp;หากเป็นอาวุธผิดกฏหมาย ให้ยึดอาวุธ</a><br>
+                                    มาตรา 202 - การครอบครองอาวุธสงครามผิดกฏหมาย มีโทษ<a style="color:#FF9966    ;">
                                         &nbsp;ปรับ 50,000-200,000 เหรียญ</a> หรือ
-                                    <a style="color:#bf0000	;"> &nbsp;จำคุก 20-60
-                                        นาที</a> และ <a style="color:#5f00bf	;"> &nbsp;ยึดอาวุธชนิดนั้นๆ</a><br>
-                                    มาตรา 203 - การจำหน่ายอาวุธสงครามผิดกฏหมาย มีโทษ<a style="color:#FF9966	;">
+                                    <a style="color:#bf0000 ;"> &nbsp;จำคุก 20-60
+                                        นาที</a> และ <a style="color:#5f00bf    ;"> &nbsp;ยึดอาวุธชนิดนั้นๆ</a><br>
+                                    มาตรา 203 - การจำหน่ายอาวุธสงครามผิดกฏหมาย มีโทษ<a style="color:#FF9966 ;">
                                         &nbsp;ปรับ 30,000-150,000 เหรียญ</a> หรือ
-                                    <a style="color:#bf0000	;"> &nbsp;จำคุก 15-45 นาที</a>
-                                    และ <a style="color:#5f00bf	;"> &nbsp;ยึดอาวุธชนิดนั้นๆ</a><br>
+                                    <a style="color:#bf0000 ;"> &nbsp;จำคุก 15-45 นาที</a>
+                                    และ <a style="color:#5f00bf ;"> &nbsp;ยึดอาวุธชนิดนั้นๆ</a><br>
                                     มาตรา 204 - การใช้อาวุธโดยประมาทหรือเจตนาในที่ชุมชนหรือที่ที่มีบุคคลอื่นอยู่ใกล้
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        30,000-100,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 15-30
-                                        นาที</a> <a style="color:#5f00bf	;"> &nbsp;หากเป็นอาวุธผิดกฏหมาย
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        30,000-100,000 เหรียญ</a> หรือ <a style="color:#bf0000  ;"> &nbsp;จำคุก 15-30
+                                        นาที</a> <a style="color:#5f00bf    ;"> &nbsp;หากเป็นอาวุธผิดกฏหมาย
                                         ให้ยึดอาวุธ</a><br>
                                     มาตรา 205 - การทำร้ายผู้เล่นอื่นด้วยอาวุธใดๆ ทำให้ผู้อื่นบาดเจ็บโดยประมาทหรือเจตนา
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        50,000-300,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 20-75
-                                        นาที</a> <a style="color:#5f00bf	;"> &nbsp;หากเป็นอาวุธผิดกฏหมาย
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        50,000-300,000 เหรียญ</a> หรือ <a style="color:#bf0000  ;"> &nbsp;จำคุก 20-75
+                                        นาที</a> <a style="color:#5f00bf    ;"> &nbsp;หากเป็นอาวุธผิดกฏหมาย
                                         ให้ยึดอาวุธ</a><br>
                                     มาตรา 206 - การพกพาอาวุธโดยไม่มีใบอนุญาตพกพาอาวุธ ทั้งแบบสามัญหรือเฉพาะชนิด
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        30,000-100,000 เหรียญ</a> และ<a style="color:#5f00bf	;">
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        30,000-100,000 เหรียญ</a> และ<a style="color:#5f00bf    ;">
                                         &nbsp;ยึดอาวุธชนิดนั้นๆ</a><br>
                                 </div>
                             </div>
@@ -933,23 +959,23 @@ require('steamauth/steamauth.php');
                             </h2>
                             <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 301 -
-                                    ครอบครองสารเสพติด เช่น<a style="color:#058c46	;"> &nbsp;กัญชา โคเคน สารตั้งต้น
+                                    ครอบครองสารเสพติด เช่น<a style="color:#058c46   ;"> &nbsp;กัญชา โคเคน สารตั้งต้น
                                         หรือยาเสพติดอื่นใดที่เกี่ยวข้องกัน
-                                        รวมแล้วเกิน 4 ชิ้นขึ้นไป</a> มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        100,000-500,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 20-90
-                                        นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ
+                                        รวมแล้วเกิน 4 ชิ้นขึ้นไป</a> มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ
+                                        100,000-500,000 เหรียญ</a> หรือ <a style="color:#bf0000 ;"> &nbsp;จำคุก 20-90
+                                        นาที</a> หรือ<a style="color:#5f00bf    ;"> &nbsp;ทั้งจำและปรับ
                                         โทษเพิ่มขึ้นตามปริมาณที่ครอบครอง</a><br>
 
-                                    มาตรา 302 - การใช้สารเสพติดผิดกฏหมาย มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        20,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 10 นาที</a><br>
+                                    มาตรา 302 - การใช้สารเสพติดผิดกฏหมาย มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ
+                                        20,000 เหรียญ</a> หรือ <a style="color:#bf0000  ;"> &nbsp;จำคุก 10 นาที</a><br>
                                     มาตรา 303 - จำหน่ายสารเสพติด สารตั้งต้น และอุปกรณ์เกี่ยวข้องกับยาเสพติดทุกชนิด
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        50,000-150,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 15-30
-                                        นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
-                                    มาตรา 304 - เป็นผู้ผลิตสารเสพติดชนิดใดๆ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        50,000-200,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        50,000-150,000 เหรียญ</a> หรือ <a style="color:#bf0000  ;"> &nbsp;จำคุก 15-30
+                                        นาที</a> หรือ<a style="color:#5f00bf    ;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มาตรา 304 - เป็นผู้ผลิตสารเสพติดชนิดใดๆ มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        50,000-200,000 เหรียญ</a> หรือ <a style="color:#bf0000  ;"> &nbsp;จำคุก
                                         15-40 นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br></div>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br></div>
                             </div>
                         </div>
                         <div class="accordion-item">
@@ -964,48 +990,48 @@ require('steamauth/steamauth.php');
                                 <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 401 -
                                     การกรรโชกทรัพย์ ขู่เข็ญ ข่มขู่
                                     หรือสร้างความหวาดกลัวต่อผู้เล่นอื่น
-                                    เพื่อหมายในทรัพย์สินของผู้เล่นนั้น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        20,000-50,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10-20
-                                        นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a>
+                                    เพื่อหมายในทรัพย์สินของผู้เล่นนั้น มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ
+                                        20,000-50,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก 10-20
+                                        นาที</a> หรือ<a style="color:#5f00bf    ;"> &nbsp;ทั้งจำและปรับ</a>
                                     <br>
                                     มาตรา 402 -
                                     การลักทรัพย์หรือชิงทรัพย์จากผู้เล่นอื่นโดยไม่ได้รับความยินยอมจากบุคคลนั้น
-                                    โดยกระทำการเพียงคนเดียว มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 50,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 20 นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    โดยกระทำการเพียงคนเดียว มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 50,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 20 นาที</a>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
                                     มาตรา 403 -
                                     การลักทรัพย์หรือชิงทรัพย์จากผู้เล่นอื่นโดยไม่ได้รับความยินยอมจากบุคคลนั้น
-                                    โดยร่วมกันกระทำ 2-3 คน มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 75,000 เหรียญ</a>
-                                    หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ ต่อบุคคล</a>
+                                    โดยร่วมกันกระทำ 2-3 คน มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 75,000 เหรียญ</a>
+                                    หรือ<a style="color:#bf0000 ;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ ต่อบุคคล</a>
                                     <br>
                                     มาตรา 404 -
                                     การลักทรัพย์หรือชิงทรัพย์จากผู้เล่นอื่นโดยไม่ได้รับความยินยอมจากบุคคลนั้น
-                                    โดยร่วมกันกระทำ<a style="color:#058c46	;"> &nbsp;4 คนขึ้นไป</a> มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 100,000 เหรียญ</a> หรือ <a style="color:#bf0000	;"> &nbsp;จำคุก 40 นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับต่อบุคคล</a>
+                                    โดยร่วมกันกระทำ<a style="color:#058c46  ;"> &nbsp;4 คนขึ้นไป</a> มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ 100,000 เหรียญ</a> หรือ <a style="color:#bf0000  ;"> &nbsp;จำคุก 40 นาที</a>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับต่อบุคคล</a>
                                     <br>
                                     มาตรา 405 - การร่วมกันปล้นสถานที่ทางการเพื่อประสงค์ต่อทรัพย์หรือสิ่งอื่นใด เช่น
                                     ปล้นธนาคาร
-                                    หรือเรือบรรทุกเครื่องบิน มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        500,000-1,000,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 60-120
+                                    หรือเรือบรรทุกเครื่องบิน มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ
+                                        500,000-1,000,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก 60-120
                                         นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ ต่อบุคคล</a><br>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ ต่อบุคคล</a><br>
                                     มาตรา 406 - การรับซื้อของโจร การได้ทรัพย์ใดๆ มาจากการกระทำความผิด
-                                    ถึงแม้มิได้เป็นผู้กระทำความผิดนั้น ให้ถือว่าตกเป็นจำเลยร่วม มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 20,000-50,000
+                                    ถึงแม้มิได้เป็นผู้กระทำความผิดนั้น ให้ถือว่าตกเป็นจำเลยร่วม มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 20,000-50,000
                                         เหรียญ</a> หรือ
-                                    <a style="color:#bf0000	;"> &nbsp;จำคุก 10-20 นาที</a> และ<a style="color:#5f00bf	;"> &nbsp;ยึดทรัพย์สินที่ได้นั้นมาด้วย</a><br>
+                                    <a style="color:#bf0000 ;"> &nbsp;จำคุก 10-20 นาที</a> และ<a style="color:#5f00bf   ;"> &nbsp;ยึดทรัพย์สินที่ได้นั้นมาด้วย</a><br>
                                     มาตรา 407 - การทำให้ทรัพย์สินมีค่าของผู้อื่นเสียหาย สูญหาย หรือมีความบกพร่องไป
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        30,000-50,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10-20
-                                        นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
-                                    มาตรา 408 - การขโมยยานพาหนะใดๆ ของผู้อื่นโดยเจ้าทรัพย์ไม่ยินยอม มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        30,000-50,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก 10-20
+                                        นาที</a> หรือ<a style="color:#5f00bf    ;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มาตรา 408 - การขโมยยานพาหนะใดๆ ของผู้อื่นโดยเจ้าทรัพย์ไม่ยินยอม มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
                                         50,000-100,000 เหรียญ</a>
-                                    หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15-30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    หรือ<a style="color:#bf0000 ;"> &nbsp;จำคุก 15-30 นาที</a> หรือ<a style="color:#5f00bf  ;"> &nbsp;ทั้งจำและปรับ</a><br>
                                     มาตรา 409 - การแจ้งความเท็จในเรื่องเกี่ยวกับทรัพย์สิน
                                     โดยไม่มีหลักฐานหรือประจักษ์พยาน
-                                    หากทำการสืบสวนสอบสวนแล้วเป็นเท็จ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 100,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    หากทำการสืบสวนสอบสวนแล้วเป็นเท็จ มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ 100,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
                                     มาตรา 410 - เจ้าทุกข์ผู้เสียหาย
-                                    สามารถฟ้องร้องทางแพ่งเรียกค่าเสียหายจากจำเลยได้เป็นมูลค่าไม่เกิน<a style="color:#bf0000	;"> &nbsp;1.5 เท่า</a>
+                                    สามารถฟ้องร้องทางแพ่งเรียกค่าเสียหายจากจำเลยได้เป็นมูลค่าไม่เกิน<a style="color:#bf0000 ;"> &nbsp;1.5 เท่า</a>
                                     จากมูลค่าที่ทรัพย์ที่ถูกชิงไปหรือทำให้เสียหาย
                                     นอกเหนือจากการริบทรัพย์คืนแก่เจ้าทุกข์นั้นแล้ว
                                     ทั้งนี้อยู่ที่ดุลยพินิจของเจ้าพนักงานบังคับคดี<br>
@@ -1020,39 +1046,39 @@ require('steamauth/steamauth.php');
                             </h2>
                             <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 501 -
-                                    การทำร้ายร่างกายผู้อื่น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 20,000-30,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a>
+                                    การทำร้ายร่างกายผู้อื่น มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 20,000-30,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 10 นาที</a> หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a>
                                     หากมีการใช้อาวุธทำร้ายร่างกาย ให้ผิดมาตรา 205 ร่วมด้วย<br>
-                                    มาตรา 502 - การทรมานผู้อื่นจนบาดเจ็บสาหัส มีโทษ<a style="color:#FF9966	;">
-                                        &nbsp;ปรับ 50,000-100,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก
+                                    มาตรา 502 - การทรมานผู้อื่นจนบาดเจ็บสาหัส มีโทษ<a style="color:#FF9966  ;">
+                                        &nbsp;ปรับ 50,000-100,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก
                                         15-30 นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
-                                    มาตรา 503 - กระทำการโดยประมาท เป็นเหตุให้ผู้อื่นถึงแก่ความตาย มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มาตรา 503 - กระทำการโดยประมาท เป็นเหตุให้ผู้อื่นถึงแก่ความตาย มีโทษ<a style="color:#FF9966  ;"> &nbsp;ปรับ
                                         50,000-100,000 เหรียญ</a>
-                                    หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15-30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a> หากเกิดจากการขับขี่ยานพาหนะ
+                                    หรือ<a style="color:#bf0000 ;"> &nbsp;จำคุก 15-30 นาที</a> หรือ<a style="color:#5f00bf  ;"> &nbsp;ทั้งจำและปรับ</a> หากเกิดจากการขับขี่ยานพาหนะ
                                     ให้ผิดมาตรา 107
                                     ร่วมด้วย<br>
-                                    มาตรา 504 - พยายามฆ่าผู้อื่น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        150,000-200,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 40-50
+                                    มาตรา 504 - พยายามฆ่าผู้อื่น มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ
+                                        150,000-200,000 เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 40-50
                                         นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
-                                    มาตรา 505 - ฆ่าผู้อื่นโดยเจตนา มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        200,000-300,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 45-60
-                                        นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มาตรา 505 - ฆ่าผู้อื่นโดยเจตนา มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ
+                                        200,000-300,000 เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 45-60
+                                        นาที</a> หรือ<a style="color:#5f00bf    ;"> &nbsp;ทั้งจำและปรับ</a>
                                     <br>
                                     มาตรา 506 - การลักพาตัวโดยผู้เล่นอื่นไม่ยินยอม การกักขังหน่วงเหนียว
                                     การบังคับจับตัวประกัน
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 50,000-100,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15-30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
-                                    มาตรา 507 - การเจตนาทำร้ายร่างกายเจ้าหน้าที่รัฐทุกหน่วยงาน มีโทษ<a style="color:#bf0000	;"> &nbsp;จำคุกทันที 15-30
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 50,000-100,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก 15-30 นาที</a> หรือ<a style="color:#5f00bf  ;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มาตรา 507 - การเจตนาทำร้ายร่างกายเจ้าหน้าที่รัฐทุกหน่วยงาน มีโทษ<a style="color:#bf0000 ;"> &nbsp;จำคุกทันที 15-30
                                         นาที</a><br>
-                                    มาตรา 508 - สังหารเจ้าหน้าที่รัฐทุกหน่วยงาน มีโทษ<a style="color:#bf0000	;">
+                                    มาตรา 508 - สังหารเจ้าหน้าที่รัฐทุกหน่วยงาน มีโทษ<a style="color:#bf0000    ;">
                                         &nbsp;จำคุกทันที 60 นาที</a><br>
-                                    มาตรา 509 - กระทำความผิดโดยเจตนาทำร้ายหรือทำให้เสียชีวิตต่อประชาชนคนเดิมเกิน <a style="color:#058c46	;"> &nbsp;2 ครั้ง ใน 24
+                                    มาตรา 509 - กระทำความผิดโดยเจตนาทำร้ายหรือทำให้เสียชีวิตต่อประชาชนคนเดิมเกิน <a style="color:#058c46    ;"> &nbsp;2 ครั้ง ใน 24
                                         ชั่วโมง</a>
                                     เจ้าหน้าที่สามารถรับทำคดีได้ทันทีโดยที่เจ้าทุกข์ไม่จำเป็นต้องแจ้งความ
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        200,000-500,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 45-90
-                                        นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        200,000-500,000 เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 45-90
+                                        นาที</a> หรือ<a style="color:#5f00bf    ;"> &nbsp;ทั้งจำและปรับ</a><br>
                                 </div>
                             </div>
                         </div>
@@ -1067,39 +1093,39 @@ require('steamauth/steamauth.php');
                                     การขัดขวางการทำงานของเจ้าหน้าที่
                                     ไม่ให้ความร่วมมือ
                                     ไม่ปฏิบัติตามคำสั่งเฉพาะหน้าของเจ้าหน้าที่ จงใจก่อกวน สร้างความลำบากให้เจ้าหน้าที่
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        30,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15 นาที</a><br>
-                                    มาตรา 602 - ขัดขืนการจับกุมของเจ้าหน้าที่ มีโทษ<a style="color:#FF9966	;">
-                                        &nbsp;ปรับ 50,000 เหรียญ</a> และ<a style="color:#bf0000	;"> &nbsp;จำคุก 20
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        30,000 เหรียญ</a> หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 15 นาที</a><br>
+                                    มาตรา 602 - ขัดขืนการจับกุมของเจ้าหน้าที่ มีโทษ<a style="color:#FF9966  ;">
+                                        &nbsp;ปรับ 50,000 เหรียญ</a> และ<a style="color:#bf0000 ;"> &nbsp;จำคุก 20
                                         นาที</a><br>
-                                    มาตรา 603 - การติดสินบนเจ้าหน้าที่ เพื่อประโยชน์ส่วนตน ผู้เล่น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 100,000
-                                        เหรียญ</a> และ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a>
+                                    มาตรา 603 - การติดสินบนเจ้าหน้าที่ เพื่อประโยชน์ส่วนตน ผู้เล่น มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 100,000
+                                        เหรียญ</a> และ<a style="color:#bf0000   ;"> &nbsp;จำคุก 30 นาที</a>
                                     <br>
-                                    มาตรา 604 - แจ้งความเท็จ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 100,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a>
+                                    มาตรา 604 - แจ้งความเท็จ มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ 100,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a>
                                     หากเป็นเรื่องเกี่ยวกับทรัพย์สิน ให้ใช้มาตรา 409 แทน<br>
 
-                                    มาตรา 605 - หลบหนีการจับกุมไปยังที่พักอาศัย ทั้งของตนเองและผู้อื่น มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 50,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 20 นาที</a>
+                                    มาตรา 605 - หลบหนีการจับกุมไปยังที่พักอาศัย ทั้งของตนเองและผู้อื่น มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 50,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 20 นาที</a>
                                     <br>
                                     มาตรา 606 - ให้การช่วยเหลือผู้ต้องหาด้วยวิธีต่างๆ ให้ที่หลบซ่อนหรือที่พักพิง
                                     พาผู้ต้องหาหลบหนี
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 50,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 20 นาที</a><br>
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 50,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก 20 นาที</a><br>
 
                                     มาตรา 607 - ผู้ใดทำการชิงตัวผู้ต้องหาที่ยังไม่ได้รับการตัดสินความผิด
-                                    ไปจากการควบคุมตัวของเจ้าหน้าที่ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 200,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a>
-                                    หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    ไปจากการควบคุมตัวของเจ้าหน้าที่ มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 200,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 30 นาที</a>
+                                    หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
 
                                     มาตรา 608 - ผู้ใดทำการชิงตัวนักโทษที่ได้รับการตัดสินว่ามีความผิด
                                     ไปจากการควบคุมตัวของเจ้าหน้าที่
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 400,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 50 นาที</a> หรือ<a style="color:#5f00bf	;">
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 400,000 เหรียญ</a> หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 50 นาที</a> หรือ<a style="color:#5f00bf ;">
                                         &nbsp;ทั้งจำและปรับ</a><br>
                                     มาตรา 609 - ทำลายทรัพย์สินของทางราชการ ทรัพย์สินเจ้าหน้าที่หน่วยงานรัฐทุกหน่วยงาน
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        30,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15 นาที</a><br>
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        30,000 เหรียญ</a> หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 15 นาที</a><br>
                                     มาตรา 610 - ใช้เป็นภาคผนวกกับมาตราอื่นๆ
-                                    หากผู้กระทำความผิดมีความสำนึกผิดและเข้ามอบตัวกับเจ้าหน้าที่ตำรวจด้วยตนเอง<a style="color:#058c46	;">
+                                    หากผู้กระทำความผิดมีความสำนึกผิดและเข้ามอบตัวกับเจ้าหน้าที่ตำรวจด้วยตนเอง<a style="color:#058c46    ;">
                                         &nbsp;เมื่อผู้ต้องหาให้การรับสารภาพต้องระวางโทษกึ่งหนึ่งของฐานความผิดนั้นๆ</a><br>
                                 </div>
                             </div>
@@ -1115,44 +1141,44 @@ require('steamauth/steamauth.php');
                                 <div class="accordion-body" style="font-family: 'Mitr', sans-serif;">มาตรา 701 -
                                     การรบกวนความสงบเรียบร้อย
                                     การส่งเสียงดังรบกวนผู้อื่น การด่าทอ หมิ่นประมาท
-                                    บูลลี่ผู้อื่นใน IC มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 10,000-100,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10-30 นาที</a><br>
+                                    บูลลี่ผู้อื่นใน IC มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ 10,000-100,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 10-30 นาที</a><br>
                                     มาตรา 702 - การปกปิดรูปพรรณสันฐาน สวมหน้ากากปิดบังใบหน้า ปกปิดชื่อตนเอง
-                                    เจตนาเพื่อก่ออาชญากรรมหรือไม่ก็ตาม มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        10,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10 นาที</a><br>
-                                    มาตรา 703 - การทะเลาะวิวาทในที่สาธารณะโดยปราศจากอาวุธ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 20,000-30,000 เหรียญ</a>
-                                    หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก
+                                    เจตนาเพื่อก่ออาชญากรรมหรือไม่ก็ตาม มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ
+                                        10,000 เหรียญ</a> หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 10 นาที</a><br>
+                                    มาตรา 703 - การทะเลาะวิวาทในที่สาธารณะโดยปราศจากอาวุธ มีโทษ<a style="color:#FF9966  ;"> &nbsp;ปรับ 20,000-30,000 เหรียญ</a>
+                                    หรือ<a style="color:#bf0000 ;"> &nbsp;จำคุก
                                         10 นาที</a><br>
-                                    มาตรา 704 - การกระทำการลามกอนาจารต่อหน้าสาธารณชน มีโทษ<a style="color:#FF9966	;">
-                                        &nbsp;ปรับ 10,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก
+                                    มาตรา 704 - การกระทำการลามกอนาจารต่อหน้าสาธารณชน มีโทษ<a style="color:#FF9966   ;">
+                                        &nbsp;ปรับ 10,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก
                                         5-10
                                         นาที</a><br>
-                                    มาตรา 705 - การค้าประเวณีทุกกรณี มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 15,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 10 นาที</a><br>
-                                    มาตรา 706 - มีสัตว์สงวนหรือชิ้นส่วนสัตว์คุ้มครองไว้ในครอบครอง มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 150,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a>
-                                    และ<a style="color:#5f00bf	;"> &nbsp;ยึดของกลางทั้งหมด</a><br>
+                                    มาตรา 705 - การค้าประเวณีทุกกรณี มีโทษ<a style="color:#FF9966   ;"> &nbsp;ปรับ 15,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 10 นาที</a><br>
+                                    มาตรา 706 - มีสัตว์สงวนหรือชิ้นส่วนสัตว์คุ้มครองไว้ในครอบครอง มีโทษ<a style="color:#FF9966  ;"> &nbsp;ปรับ 150,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 30 นาที</a>
+                                    และ<a style="color:#5f00bf  ;"> &nbsp;ยึดของกลางทั้งหมด</a><br>
                                     มาตรา 707 - แต่งกายเลียนแบบเจ้าหนักงานตำรวจ แพทย์ หน่วยข่าวกรอง
-                                    เพื่อให้ผู้อื่นเข้าใจว่าตนเป็นเจ้าหน้าที่ของหน่วยงานนั้น ไม่ว่ากรณีใดๆ มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
+                                    เพื่อให้ผู้อื่นเข้าใจว่าตนเป็นเจ้าหน้าที่ของหน่วยงานนั้น ไม่ว่ากรณีใดๆ มีโทษ<a style="color:#FF9966 ;"> &nbsp;ปรับ
                                         100,000
-                                        เหรียญ</a>หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf	;"> &nbsp;ทั้งจำและปรับ</a><br>
-                                    มาตรา 708 - มีเงินผิดกฏหมายไวในครอบครอง มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
+                                        เหรียญ</a>หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 30 นาที</a> หรือ<a style="color:#5f00bf ;"> &nbsp;ทั้งจำและปรับ</a><br>
+                                    มาตรา 708 - มีเงินผิดกฏหมายไวในครอบครอง มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
                                         10,000-1,000,000 เหรียญ</a>
                                     โดยค่าปรับจะคิดเป็น 2
                                     เท่าของเงินผิดกฏหมายที่ครอบครองไว้ ต่ำสุดที่ 10,000 เหรียญสูงสุดที่ 1,000,000
                                     เหรียญ<br>
                                     มาตรา 709 - การจับกลุ่มเกิน 4 คนและก่อความวุ่นวายขึ้นในประเทศ
-                                    ให้ถือว่าเป็นแก๊งเถื่อน มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ
-                                        50,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 20 นาที</a><br>
-                                    มาตรา 710 - มีของแดงผิดกฏหมายไว้ในครอบครอง มีโทษ<a style="color:#FF9966	;">
-                                        &nbsp;ปรับ 30,000 เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 15
+                                    ให้ถือว่าเป็นแก๊งเถื่อน มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ
+                                        50,000 เหรียญ</a> หรือ<a style="color:#bf0000   ;"> &nbsp;จำคุก 20 นาที</a><br>
+                                    มาตรา 710 - มีของแดงผิดกฏหมายไว้ในครอบครอง มีโทษ<a style="color:#FF9966 ;">
+                                        &nbsp;ปรับ 30,000 เหรียญ</a> หรือ<a style="color:#bf0000    ;"> &nbsp;จำคุก 15
                                         นาที ต่อของ 1
-                                        ชิ้น</a> และ<a style="color:#5f00bf	;"> &nbsp;ยึดของกลางทั้งหมด</a><br>
+                                        ชิ้น</a> และ<a style="color:#5f00bf ;"> &nbsp;ยึดของกลางทั้งหมด</a><br>
                                     มาตรา 711 - การเป็นแก๊งที่ลงทะเบียน แต่ไม่มีที่ทำการแก๊ง เมื่อก่อความวุ่นวาย
-                                    มีโทษ<a style="color:#FF9966	;"> &nbsp;ปรับ 200,000
-                                        เหรียญ</a> หรือ<a style="color:#bf0000	;"> &nbsp;จำคุก 30 นาที</a><br>
+                                    มีโทษ<a style="color:#FF9966    ;"> &nbsp;ปรับ 200,000
+                                        เหรียญ</a> หรือ<a style="color:#bf0000  ;"> &nbsp;จำคุก 30 นาที</a><br>
                                     มาตรา 712 - เมื่อตำรวจตรวจค้นตามอำนาจหน้าที่แล้วพบบิลค้างจ่ายเกิน 100,000$
-                                    มีโทษ<a style="color:#bf0000	;"> &nbsp;จำคุก 20 นาที</a> (
+                                    มีโทษ<a style="color:#bf0000    ;"> &nbsp;จำคุก 20 นาที</a> (
                                     ยกเว้นบิลศัลยกรรม )<br></div>
                             </div>
                         </div>
@@ -1198,60 +1224,60 @@ require('steamauth/steamauth.php');
 
                                     <h6>มาตรา 901 - การกระทำความผิดเกี่ยวกับ IC และ OC การด่าทอทุกกรณี
                                         การบูลลี่การเหยียดหยามกันนอกบนบาทในเกม</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 60 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 120 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 60 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 120 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 902 - การกระทำความผิดเกี่ยวกับ PG การเล่นบทบาทที่เหนือมนุษย์</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 120 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 240 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 120 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 240 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 903 - การกระทำความผิดเกี่ยวกับ DM การยิงผู้เล่นอื่นมั่วๆ</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 150 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 300 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a> <br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 150 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 300 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a> <br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 904 - การกระทำความผิดเกี่ยวกับ SK การดักยิงที่จุดเกิด</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 120 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 240 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 120 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 240 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 905 - การกระทำความผิดเกี่ยวกับ DB การจงใจวิ่งตัดหน้ารถ</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 90 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 180 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 90 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 180 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br><br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 906 - การกระทำความผิดเกี่ยวกับ CK การฆ่าตัวตายเพื่อหนีบทบาท</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 120 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 240 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 120 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 240 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 907 - การกระทำความผิดเกี่ยวกับ NL การแก้แค้นโดยไม่ลืมเรื่องราวก่อนหน้า
                                     </h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 60 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 120นาที</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;จำคุก 180 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 4 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 60 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 120นาที</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 180 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 4 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <br>
                                     <h6>มาตรา 908 - การกระทำความผิดเกี่ยวกับ QG การหนีออกจากบทบาทตัวละครที่เล่น</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 60 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 300 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 60 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 300 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     -------------------------------------------------------------------------
@@ -1261,26 +1287,26 @@ require('steamauth/steamauth.php');
                                     <h6>วรรค 1 - การใช้บัคของประเทศเพื่อหาผลประโยชน์ หากแจ้งบัคกับประธานาธิบดี
                                         จะไม่ได้รับโทษใดๆ</h6>
                                     <br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 60 นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 120นาที</a><br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;จำคุก 180 นาที</a> และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a><br>
-                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 60 นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 120นาที</a><br>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 180 นาที</a> และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a><br>
+                                    กระทำผิดครั้งที่ 3 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <h6>วรรค 2 - การทุจริต โกงผู้เล่นอื่นๆ ( ไอเทมหรือเงินใน IC )</h6><br>
-                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000	;"> &nbsp;จำคุก 240 นาที</a> และ
-                                    ยึดของที่โกงคืนให้ผู้เสียหาย และ<a style="color:#FF9966	;"> &nbsp;แจกใบเหลือง</a>
+                                    กระทำผิดครั้งที่ 1 - <a style="color:#bf0000    ;"> &nbsp;จำคุก 240 นาที</a> และ
+                                    ยึดของที่โกงคืนให้ผู้เสียหาย และ<a style="color:#FF9966 ;"> &nbsp;แจกใบเหลือง</a>
                                     <br>
-                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000	;"> &nbsp;แจกใบแดง</a>
+                                    กระทำผิดครั้งที่ 2 - <a style="color:#bf0000    ;"> &nbsp;แจกใบแดง</a>
                                     เชิญออกจากประเทศ<br>
                                     <br>
                                     <h6>วรรค 3 - การทุจริต โกงผู้เล่นอื่นๆ ( ไอเทมหรือเงินใน OC )</h6><br>
-                                    กระทำผิดครั้งเดียว - เชิญออกจากประเทศ และ<a style="color:#bf0000	;">
+                                    กระทำผิดครั้งเดียว - เชิญออกจากประเทศ และ<a style="color:#bf0000    ;">
                                         &nbsp;ส่งข้อมูลที่มีทั้งหมดของผู้เล่นที่กระทำผิดให้ผู้เสียหายดำเนินคดีตามกฏหมาย</a>
                                     <br>
                                     <br>
                                     <h6>วรรค 4 - การใช้โปรแกรมโกงและใช้โปร</h6><br>
-                                    กระทำผิดครั้งเดียว - <a style="color:#bf0000	;"> &nbsp;เชิญออกจากประเทศ และ
+                                    กระทำผิดครั้งเดียว - <a style="color:#bf0000    ;"> &nbsp;เชิญออกจากประเทศ และ
                                         ส่งข้อมูลสตรีมผู้เล่นที่กระทำผิดเข้าระบบ
                                         Global Ban
                                         เพื่อให้เข้าเล่นในเซิฟอื่นๆ ไม่ได้อีก</a>

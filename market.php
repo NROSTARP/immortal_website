@@ -154,7 +154,7 @@
                                     hidden="">
                                 <!--ไอดีของปุ่มราคา/ซื้อ-->
                                 <button class="btn btn-success btn-sm float-right waves-effect z-depth-0" id="buy_001"
-                                    onclick=""> 4000 point</button>
+                                    onclick="..."> 4000 point</button>
 
 
                             </p>
